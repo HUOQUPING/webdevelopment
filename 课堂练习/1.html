@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        //1. 有a、b、c三个整数，a^2 + b^2 + c^2 =1000求abc的值。
+        for (var a = 1; a < 34; a++) {
+            for (var b = a; b < 34; b++) {
+                for (var c = b; c < 34; c++) {
+                    if (a * a + b * b + c * c == 1000) {
+                        console.log(a, b, c);
+                    }
+                }
+            }
+        }
+       
+          
+    </script>
+</body>
+
+</html>

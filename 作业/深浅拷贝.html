@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 创建deepCopy的方法实现传入一个对象，返回一个新的对象
+    要求新对象与就对象属性值完全相等，但是两个对象不共享同一块内存
+   可以通过 obj.constructor === Array 判断属性是否是数组 -->
+    <script>
+        function deepCopy(obj) {
+            // 判断typeof obj的类型是否为"object"
+            if (typeof obj !== "object") {
+                return obj;
+            }
+        //    obj1=[]
+        //    obj2={}
+            // 根据 obj.constructor === Array 判断是否为数组,  从而创建一个空数组或者空对象
+            var newObj = obj.constructor === Array ? [] : {};
+
+            // 遍历obj
+            for (var i in obj) {
+                if (typeof obj[i] === "object") {// 判断对象的这条属性是否为对象
+                    newObj[i] = deepCopy(obj[i]);  
+                } else {
+                    newObj[i] = obj[i];
+                }
+            }
+            //返回新对象
+            return newObj;
+        }
+
+        var obj1 = {
+            name: "小红",
+            age: 19,
+            hobby: ["吃饭", "睡觉", "打豆豆"]
+        };
+        var obj2 = deepCopy(obj1);
+        console.log(obj1, obj2);
+        obj2.name = "小蓝";
+        obj1.hobby[0] = "打代码";
+        console.log(obj1, obj2);
+        // console.log(obj1 !== null && typeof obj1 === 'object' && obj1.constructor === Array)
+        // console.log(obj2 !== null && typeof obj2 === 'object' && obj1.constructor !== Array)
+
+         // 思路：
+        // function deepClone(arr1) {
+        //     if (typeof arr1 === "object") {
+        //         return arr1;
+        //     }
+        // }
+        // var arr1 = {
+        //     name: 1,
+        //     age: 17,
+        //     hobby: ["打代码", "再打代码"]
+        // }
+        // var arr2 = deepClone(arr1)
+        //  function deepClone(){
+        //  }
+        //  null
+        // arr1 = []
+        // 判断这个数据是否是数组的方法
+        // console.log(arr1 !== null && typeof arr1 === 'object' && arr1.constructor === Array)
+        // // var arr2 = {}
+        // console.log(arr2 !== null && typeof arr2 === 'object' && arr1.constructor !== Array)
+
+    </script>
+</body>
+
+</html>

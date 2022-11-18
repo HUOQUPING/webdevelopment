@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .box {
+        width: 1200px;
+        margin: 50px auto;
+    }
+
+    .box .boxtop {
+        width: 1100px;
+        height: 193px;
+        margin: 0 auto;
+    }
+
+    .box .boxtop .topli {
+        width: 1100px;
+        margin-top: 20px;
+    }
+
+    .box .boxtop .topli .inbl {
+        display: inline-block;
+    }
+
+    .box .boxtop .topli span {
+        font-size: 17px;
+        margin-left: 15px;
+        font-weight: 500;
+        cursor: pointer;
+
+    }
+
+    .box .boxtop .topli p {
+        display: inline-block;
+        color: rgba(138, 138, 138, 0.925);
+
+    }
+
+    .active {
+        color: rgb(17, 136, 192);
+    }
+
+    .box .but {
+        width: 1100px;
+        height: 2600px;
+        margin: 0 auto;
+    }
+
+    .box .but li {
+        width: 200px;
+        height: 250px;
+        margin-left: 10px;
+        margin-top: 75px;
+        float: left;
+    }
+
+    .box .but li img {
+        width: 100%;
+        height: 250px;
+    }
+
+    .tabp {
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .tabp2 {
+        font-size: 15px;
+        font-weight: 300;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="boxtop">
+            <div class="topli">
+                <p>题材</p>
+                <div class="styletype inbl">
+                </div>
+            </div>
+            <div class="topli">
+                <p>地区</p>
+                <div class="areap inbl">
+                </div>
+            </div>
+            <div class="topli">
+                <p>进度</p>
+                <div class="isfinish inbl">
+                </div>
+            </div>
+            <div class="topli">
+                <p>收费</p>
+                <div class="isFreep inbl">
+                </div>
+
+            </div>
+            <div class="topli">
+                <p>排序</p>
+                <div class="orderp inbl">
+                </div>
+            </div>
+        </div>
+        <div class="but">
+        </div>
+    </div>
+
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script src="./js/data.js"></script>
+    <script>
+
+
+        $(".topli").on("click", "span", function () {
+            $(this).addClass("active").siblings().removeClass("active")
+        })
+
+        function ajax(option) {
+            option = Object.assign({
+                timeout: 5000,
+                type: 'GET'
+            }, option)
+
+            var data = option.data  // {name: 123, age: 5} => 'name=123&age=5'
+
+            var dataStr = ''
+
+            for (var key in data) {
+                dataStr += key + '=' + data[key] + '&'
+            }
+            // 去掉多余的&
+            dataStr = dataStr.substring(0, dataStr.length - 1)
+
+            var xhr = new XMLHttpRequest()
+
+            var timer = setTimeout(function () {
+                xhr.abort()
+            }, option.timeout)
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.status == 200 && xhr.readyState == 4) {
+
+                    clearTimeout(timer)
+
+                    // 获取文本数据    
+                    option.success && option.success(xhr.responseText)
+                }
+            }
+            xhr.open(option.type, option.url)
+
+            if (option.type === 'POST') {
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            }
+            xhr.send(dataStr)
+        }
+        var data = ""
+        ajax({
+            type: 'GET',
+            url: 'https://apis.netstart.cn/bcomic/ClassPage?styleId=999&areaId=-1&isFinish=-1&order=0&pageNum=1&pageSize=39&isFree=-1',
+            success: function (data) {
+                data = JSON.parse(data)
+                console.log(data);
+                var asd = data.data
+                var but = document.querySelector(".but")
+
+                var str = ""
+
+                asd.forEach(function (item) {
+                    str += "<li><img src=" + item.vertical_cover + "><p class='tabp'>" + item.title + "</p><p class='tabp2'>" + item.last_short_title + "</p></li>"
+
+                })
+                but.innerHTML = str
+            }
+        })
+        console.log(data);
+
+
+
+        //题材
+        var styleStr = '';
+        style.forEach(function (item, index) {
+            if (index == 0) {
+                styleStr += '<span class="active" data-id="' + item.styleId + '">' + item.type + '</span>'
+            } else {
+                styleStr += '<span data-id="' + item.styleId + '">' + item.type + '</span>'
+            }
+        })
+        $(".styletype>span").eq(0).addClass("active")
+        $(".styletype").html(styleStr);
+
+        $(".styletype>span").click(function () {
+            dataId1 = $(this).attr("data-id");
+            ajax({
+                type: 'GET',
+                url: 'https://apis.netstart.cn/bcomic/ClassPage?styleId=' + dataId1 + '&areaId=-1&isFinish=-1&order=0&pageNum=1&pageSize=39&isFree=-1',
+                success: function (data) {
+                    data = JSON.parse(data)
+                    var asd = data.data
+                    var but = document.querySelector(".but")
+
+                    var str = ""
+
+                    asd.forEach(function (item) {
+                        str += "<li><img src=" + item.vertical_cover + "><p class='tabp'>" + item.title + "</p><p class='tabp2'>" + item.last_short_title + "</p></li>"
+
+                    })
+                    but.innerHTML = str
+                }
+            })
+        })
+
+        //地区
+        var areaStr = '';
+        area.forEach(function (item, index) {
+            if (index == 0) {
+                areaStr += '<span class="active" data-id="' + item.areaId + '">' + item.type + '</span>'
+            } else {
+                areaStr += '<span data-id="' + item.areaId + '">' + item.type + '</span>'
+            }
+
+        })
+
+        $(".areap").html(areaStr);
+
+        $(".areap>span").click(function () {
+            dataId2 = $(this).attr("data-id");
+            ajax({
+                type: 'GET',
+                url: 'https://apis.netstart.cn/bcomic/ClassPage?styleId=999&areaId=' + dataId2 + '&isFinish=-1&order=0&pageNum=1&pageSize=39&isFree=-1',
+                success: function (data) {
+                    data = JSON.parse(data)
+                    var asd = data.data
+                    var but = document.querySelector(".but")
+                    var str = ""
+                    asd.forEach(function (item) {
+                        str += "<li><img src=" + item.vertical_cover + "><p class='tabp'>" + item.title + "</p><p class='tabp2'>" + item.last_short_title + "</p></li>"
+
+                    })
+                    but.innerHTML = str
+                }
+            })
+        })
+
+        //进度
+        var isFinishStr = '';
+        isFinish.forEach(function (item, index) {
+
+            if (index == 0) {
+                isFinishStr += '<span class="active" data-id="' + item.isFinishid + '">' + item.type + '</span>'
+            } else {
+                isFinishStr += '<span data-id="' + item.isFinishid + '">' + item.type + '</span>'
+            }
+
+        })
+
+        $(".isfinish").html(isFinishStr)
+
+        $(".isfinish>span").click(function () {
+
+            dataId3 = $(this).attr("data-id");
+            ajax({
+                type: 'GET',
+                url: 'https://apis.netstart.cn/bcomic/ClassPage?styleId=999&areaId=-1&isFinish=' + dataId3 + '&order=0&pageNum=1&pageSize=39&isFree=-1',
+                success: function (data) {
+                    data = JSON.parse(data)
+                    var asd = data.data
+                    var but = document.querySelector(".but")
+
+                    var str = ""
+
+                    asd.forEach(function (item) {
+                        str += "<li><img src=" + item.vertical_cover + "><p class='tabp'>" + item.title + "</p><p class='tabp2'>" + item.last_short_title + "</p></li>"
+
+                    })
+                    but.innerHTML = str
+                }
+            })
+        })
+
+        //收费
+        var isFreeStr = '';
+        isFree.forEach(function (item, index) {
+
+            if (index == 0) {
+                isFreeStr += '<span class="active" data-id="' + item.isFreeid + '">' + item.type + '</span>'
+            } else {
+                isFreeStr += '<span data-id="' + item.isFreeid + '">' + item.type + '</span>'
+            }
+
+        })
+
+        $(".isFreep").html(isFreeStr)
+
+        $(".isFreep>span").click(function () {
+
+            dataId4 = $(this).attr("data-id");
+            ajax({
+                type: 'GET',
+                url: 'https://apis.netstart.cn/bcomic/ClassPage?styleId=999&areaId=-1&isFinish=-1&order=0&pageNum=1&pageSize=39&isFree=' + dataId4,
+                success: function (data) {
+                    data = JSON.parse(data)
+                    var asd = data.data
+                    var but = document.querySelector(".but")
+
+                    var str = ""
+
+                    asd.forEach(function (item) {
+                        str += "<li><img src=" + item.vertical_cover + "><p class='tabp'>" + item.title + "</p><p class='tabp2'>" + item.last_short_title + "</p></li>"
+
+                    })
+                    but.innerHTML = str
+                }
+            })
+        })
+
+        //排序
+        var orderStr = '';
+        order.forEach(function (item, index) {
+            if (index == 0) {
+                orderStr += '<span class="active" data-id="' + item.orderid + '">' + item.type + '</span>'
+            } else {
+                orderStr += '<span data-id="' + item.orderid + '">' + item.type + '</span>'
+            }
+
+        })
+
+        $(".orderp").html(orderStr)
+
+        $(".orderp>span").click(function () {
+
+            dataId5 = $(this).attr("data-id");
+            ajax({
+                type: 'GET',
+                url: 'https://apis.netstart.cn/bcomic/ClassPage?styleId=999&areaId=-1&isFinish=-1&order=' + dataId5 + '&pageNum=1&pageSize=39&isFree=-1',
+                success: function (data) {
+                    data = JSON.parse(data)
+                    var asd = data.data
+                    var but = document.querySelector(".but")
+
+                    var str = ""
+
+                    asd.forEach(function (item) {
+                        str += "<li><img src=" + item.vertical_cover + "><p class='tabp'>" + item.title + "</p><p class='tabp2'>" + item.last_short_title + "</p></li>"
+
+                    })
+                    but.innerHTML = str
+                }
+            })
+        })
+
+
+
+
+
+
+
+
+
+    </script>
+
+    <!-- styleId 题材分类id number -1全部  999热血   997古风  1016玄幻 998奇幻 1023悬疑 1002都市 1096历史 1092武侠仙侠  1088游戏竞技 
+         1081悬疑灵异 1063架空 1060青春 1054西幻 1048现代 1028正能量 1015科幻
+       areaId 地区分类id  number -1全部  1大陆  2日本  6韩国  5其他
+       isFinish 进度分类    number -1全部  0连载  1完结
+       isFree 收费id  number -1全部  1免费  2付费   3等就免费
+       order  排序     number 0人气推荐 1更新时间 2追漫人数  3上架时间
+       pageNum  页码 number 1 -->
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .box {
+            width: 600px;
+            border: 1px solid #cccccc;
+            margin: 50px auto;
+        }
+
+        .box .toolbar {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .box .toolbar p:first-child {
+            margin-bottom: 10px;
+        }
+
+        .box .toolbar input {
+            border: none;
+            outline: none;
+            font-size: 0;
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .box button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <!-- 上部分工具栏 -->
+        <div class="toolbar">
+            <p>
+                请选择画布颜色:
+                <input type="button" value="黑色" style="background-color: black" />
+                <input type="button" value="红色" style="background-color: red" />
+                <input type="button" value="橙色" style="background-color: orange" />
+                <input type="button" value="黄色" style="background-color: yellow" />
+                <input type="button" value="绿色" style="background-color: green" />
+                <input type="button" value="蓝色" style="background-color: blue" />
+            </p>
+
+            <p>
+                <button class="btn-clear">清除画布</button>
+                当前所选颜色: <strong class="curColor">黑色</strong>
+                <button class="btn-eraser">橡皮擦</button>
+            </p>
+        </div>
+        <!-- 下部分画布 -->
+        <canvas width="600" height="400"></canvas>
+    </div>
+
+
+    <script>
+        // 画布
+        let canvas = document.querySelector("canvas");
+        let ctx = canvas.getContext("2d");
+        // 设置条线的粗细
+        ctx.lineWidth = 3;
+        // 默认橡皮擦关闭
+        let isEraser = false;
+        // 选择颜色，开始画画
+        let colorInputs = document.querySelectorAll("input");
+        let curColorSpan = document.querySelector(".curColor");
+        // 清除画布
+        let btnClear = document.querySelector(".btn-clear");
+          // 橡皮擦
+        let btnEraser = document.querySelector(".btn-eraser");
+
+        for (let i = 0; i < colorInputs.length; i++) {
+            // 点击事件
+            colorInputs[i].onclick = function () {
+                curColorSpan.innerText = this.value; // 设置当前所选颜色的内容
+                let colorVal = this.style.backgroundColor;     // 取出颜色值
+                curColorSpan.style.color = colorVal;  // 设置当前所选颜色的内容的字体颜色
+                ctx.strokeStyle = colorVal;// 设置画笔的颜色
+                isEraser = false; // 关闭橡皮擦
+            }
+        }
+
+        // 给画布绑定鼠标按下事件
+        canvas.onmousedown = function (e) {
+            if (isEraser) {
+                ctx.clearRect(e.offsetX - 3, e.offsetY - 3, 6, 6);
+            }
+            ctx.beginPath(); // 开始绘制        
+            ctx.moveTo(e.offsetX, e.offsetY) // 移动笔触到起始点
+            // 给画布绑定鼠标移动事件
+            canvas.onmousemove = function (evt) {
+                ctx.lineTo(evt.offsetX, evt.offsetY);  // 绘制路径
+                ctx.stroke();   // 描边
+            }
+            // 画布鼠标弹起事件
+            canvas.onmouseup = function () {
+                canvas.onmousemove = null;// 解绑鼠标移动事件
+            }
+        }
+
+        // 点击清除画布功能
+        btnClear.onclick = function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+      
+        // 橡皮擦按钮点击事件
+        btnEraser.onclick = function () {
+            ctx.strokeStyle = "#fff"; // 设置绘制线条为白色
+            isEraser = true;   // 开启橡皮擦
+        }
+
+    </script>
+
+</body>
+
+</html>

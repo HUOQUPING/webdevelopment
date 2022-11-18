@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            float: left;
+            width: 660px;
+            height: 360px;
+            background: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+    
+    <script>
+        // 第一个表格；
+        var str="<table border='1' >"
+            // 外层循环行
+             for(var i=9;i>=1;i--){
+                 str+="<tr>"
+                    // 输出空的单元格；
+                    for(var j=1;j<i;j++){
+                        str+="<td>&nbsp;</td>"
+                    }
+                    // 内层循环列
+                    for(var k=9;k>=i;k--){
+                        str+="<td style=background-color:aqua;>"+k+"&times;"+i+"="+i*k+"</td>"
+
+                    }
+                 str+="</tr>"
+
+             }
+        str+="</table>"
+        document.write(str)
+
+        // 第二个表个；
+        var str="<table border='1' >"
+            for(var i=1;i<=9;i++){
+                str+="<tr>"
+              for(var j=1;j<=i;j++){
+                  str+="<td style= background-color:pink;>"+i+"&times"+j+"="+j*i+"</td>"
+              }
+
+              for(var k=1;k<=9-i;k++){
+                  str+="<td>&nbsp;</td>"
+              }
+                str+="</tr>"
+            }
+            str+="</table>"
+            document.write(str)
+
+            // 第三个
+            var str="<table border='1' >"
+            // 外层循环行
+             for(var i=1;i<=9;i++){
+                 str+="<tr>"
+                    // 输出空的单元格；
+                    for(var j=1;j<i;j++){
+                        str+="<td>&nbsp;</td>"
+                    }
+                    // 内层循环列
+                    for(var k=9;k>=i;k--){
+                        str+="<td  style=background-color:yellow;>"+k+"&times;"+i+"="+i*k+"</td>"
+
+                    }
+                 str+="</tr>"
+
+             }
+        str+="</table>"
+        document.write(str)
+
+        // 第四
+        var str="<table border='1'>"
+            for(var i=9;i>=1;i--){
+                str+="<tr>"
+              for(var j=1;j<=i;j++){
+                  str+="<td  style=background-color:green;>"+i+"&times"+j+"="+j*i+"</td>"
+              }
+
+              for(var k=1;k<=9-i;k++){
+                  str+="<td>&nbsp;</td>"
+              }
+                str+="</tr>"
+            }
+            str+="</table>"
+            document.write(str)
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 2、(Date)计算自己出生到现在活了多少天？
+        var birthday=new Date(2000,08,15)
+        // console.log(birthday);
+        var now=new Date()
+        // console.log(now)
+        var time=now.getTime()-birthday.getTime()
+        var days=Math.floor(time/1000/3600/24)
+        console.log(days+"天")
+    </script>
+</body>
+</html>

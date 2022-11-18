@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h2>购物车列表</h2>
+        <ul class="shopcart">
+            <li class="food">
+                <span name="food-name">肉夹馍</span>
+                <span class="unit-price">15.3</span>
+                <span class="count">3</span>
+            </li>
+            <li class="food">
+                <span name="food-name">烧鹅饭</span>
+                <span class="unit-price">21</span>
+                <span class="count">2</span>
+            </li>
+            <li class="food">
+                <span name="food-name">水饺</span>
+                <span class="unit-price">18</span>
+                <span class="count">1</span>
+            </li>
+            <li class="food">
+                <span name="food-name">可乐</span>
+                <span class="unit-price">9</span>
+                <span class="count">4</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="shopcart-bar">
+        <h3 class="total-price"></h3>
+        300元起送
+        <div class="pay-btn"></div>
+    </div>
+    <!-- class="shopcart"元素为购物车列表，内部包含用户添加至购物车的所有商品
+         class="food"元素为商品，其内部包含三个元素分别为：商品名、单价、数量 -->
+         <!--根据所有商品的单价与数量获取购物车商品总价作为文本节点渲染到class="total-price"元素内部
+         class="total-price"元素后面紧跟的文本表示当前商家的起送额
+         当购物车商品总价小于起送额时，class="pay-btn"元素文本内容显示 还差xx元起送 (xx为起送额与购物车总价的差)
+         当购物车商品总价大于等于起送额时，class="pay-btn"元素文本内容显示 立即购买 -->
+    <script>
+       
+        
+
+       //获取dom对象
+        var totalPrice=document.querySelector(".total-price")
+        var food=document.querySelectorAll(".food")
+        var unitPrice=document.querySelectorAll(".unit-price")
+        var count=document.querySelectorAll(".count")
+        var payBtn=document.querySelector(".pay-btn")
+        
+        var a=0
+        //循环后拼接
+        for(var i=0;i<food.length;i++){
+          a+=(unitPrice[i].textContent*count[i].textContent)
+        }
+        totalPrice.textContent="总价："+a
+        if(a<300){   
+            payBtn.textContent="还差"+(300-a)+"元起送"
+        }
+        if(a>=300){
+            payBtn.textContent="立即购买"
+        }
+    </script>
+</body>
+
+</html>

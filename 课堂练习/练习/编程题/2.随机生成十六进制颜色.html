@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 随机生成十六进制颜色
+        // 封装一个可以得到随机整数的函数,包括min和max的
+        function getrandom(min,max){
+            return Math.floor(Math.random()*(max-min+1)+min)
+        }
+        var arr=['1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
+        var strclr="#";
+        var num=getrandom(1,2)*3
+        for(var i=0;i<num;i++){
+            var index=getrandom(0,arr.length-1)
+            strclr+=arr[index]
+        }
+       strclr=getrandom(1,2)==1?strclr.toUpperCase():strclr.toLowerCase();
+        console.log(strclr);
+        document.write("<div style='width:200px;height:200px;background:"+strclr+"'></div>")
+
+        // function getrandom(min,max){
+        //     return Math.floor(Math.random()*(max-min+1)+min);
+        // }
+        // //创建字符串
+        // var str="123456789abcdef";
+        // //splice切割str返回一个数组命名为颜色数组clrArr；
+        // var clrArr=str.split("");
+        // console.log(clrArr);
+        // //创建一个颜色字符串，要加#号；
+        // var clrStr="#";
+        // //随机三或六位数
+        // var num=getrandom(1,2)*3
+        // //循环
+        // for(var i=0;i<num;i++){
+        //     //得到随机数组下标
+        //     var index=getrandom(0,clrArr.length-1)
+        //     //把随机数组下标加到颜色数组给颜色字符串
+        //     clrStr+=clrArr[index]
+        // }
+        // // console.log(clrStr);
+        // clrStr=getrandom(1,2)==1?clrStr.toLowerCase():clrStr.toUpperCase();
+        // document.write("<div style='width:150px;height:150px;background:"+clrStr+"'>"+clrStr+"</div>")
+    </script>
+</body>
+</html>

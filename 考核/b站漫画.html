@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="./axios.min.js"></script>
+    <script src="./js/axios.min.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./manhua.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #app {
+            width: 1160px;
+            margin: auto;
+        }
+
+        ul {
+            width: 100%;
+            height: 28px;
+            padding: 5px 0;
+        }
+
+        li {
+            padding: 0 10px;
+            float: left;
+        }
+
+        .active {
+            color: rgba(0, 0, 0, .34);
+        }
+
+        .selected {
+            color: #32aaff;
+        }
+
+        .manhua {
+            width: 1160px;
+        }
+
+        .manhua>div {
+            margin-left: 10px;
+            float: left;
+            width: 180px;
+            height: 284px;
+            margin-bottom: 20px;
+        }
+
+        .manhua>div>img {
+            width: 100%;
+            height: 240px;
+        }
+
+        .manhua > div > span {
+            display: inline-block;
+            width: 180px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .manhua > div > span:nth-child(3) {
+            font-size: 12px;
+            color: rgba(0,0,0,.34);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li class="active">题材</li>
+            <li v-for="n in theme" @click="setstyleid(n.styleId)" :id="n.styleId"
+                :class="{selected : n.styleId === styleid}">
+                {{n.type}}</li>
+        </ul>
+        <ul>
+            <li class="active">地区</li>
+            <li v-for="n in area" @click="setareaid(n.areaId)" 
+            :id="n.areaId" :class="{selected :n.areaId ===  areaid}">
+                {{n.type}}</li>
+        </ul>
+        <ul>
+            <li class="active">进度</li>
+            <li v-for="n in progress" @click="setifFinishid(n.isFinishid)" 
+            :id="n.isFinishid"
+                v-bind:class="{selected : n.isFinishid === ifFinishid}">{{n.type}}</li>
+        </ul>
+        <ul>
+            <li class="active">收费</li>
+            <li v-for="n in charge" @click="setifFreeid(n.isFreeid)" 
+            :id="n.isFreeid"
+                v-bind:class="{selected :n.isFreeid ===  ifFreeid}">{{n.type}}</li>
+        </ul>
+        <ul>
+            <li class="active">排序</li>
+            <li v-for="n in sort" @click="setorderid(n.orderid)" 
+            :id="n.orderid"
+                :class="{selected : n.orderid ===  orderid}">
+                {{n.type}}</li>
+        </ul>
+
+        <div class="manhua">
+            <div v-for="n in ManArr">
+                <img :src="n.img">
+                <span>{{n.title}}</span>
+                <span>{{str(n.isfinish,n.total)}}</span>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        let vm = new Vue({
+            el: "#app",
+            data: {
+                theme: style,
+                area: area,
+                progress: isFinish,
+                charge: isFree,
+                sort: order,
+                styleid: -1,
+                areaid: -1,
+                ifFinishid: -1,
+                ifFreeid: -1,
+                orderid: 0,
+                ManArr: []
+            },
+            created() {
+                this.getEl()
+            },
+            methods: {
+                setstyleid(id) {
+                    this.styleid = id
+                    this.getEl()
+                },
+                setareaid(id) {
+                    this.areaid = id
+                    this.getEl()
+                },
+                setifFinishid(id) {
+                    this.ifFinishid = id
+                    this.getEl()
+                },
+                setifFreeid(id) {
+                    this.ifFreeid = id
+                    this.getEl()
+                },
+                setorderid(id) {
+                    this.orderid = id
+                    this.getEl()
+                },
+
+                async getEl() {
+                    let { data } = await axios(`https://apis.netstart.cn/mbcomic/ClassPage?style_id=${this.styleid}&area_id=${this.areaid}&is_finish=${this.ifFinishid}&order=${this.orderid}&is_free=${this.ifFreeid}&page_num=1&page_size=12`)
+                    let datael = data.data
+                    this.ManArr = []
+                    datael.forEach(element => {
+                        this.ManArr.push({
+                            id: element.season_id,
+                            title: element.title,
+                            img: element.vertical_cover,
+                            isfinish: element.is_finish,
+                            total: element.total
+                        })
+                    });
+                },
+                str(status,total){
+                    if(status == 0){
+                        return `连载至${total}话`
+                    }else if(status == 1){
+                        return `[完结]共${total}话`
+                    }
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

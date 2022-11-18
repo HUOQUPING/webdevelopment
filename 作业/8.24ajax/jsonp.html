@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<style>
+    /* .active{
+            color: pink;
+        } */
+    .box {
+        width: 500px;
+        height: 500px;
+    }
+</style>
+
+<body>
+    <input type="tel" id="telPhone" />
+    <button>搜索</button>
+    <div class="box">
+        <!-- <p></p>
+        <p></p>
+        <p></p>
+        <p></p> -->
+    </div>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script>
+        // 封装jsonp函数
+        // options是参数对象
+        // options.url需要jsonp请求的跨域地址
+        // options.data需要jsonp传递的参数
+        // options.success回调函数
+        function jsonp(options) {
+            // 参数字符串
+            var paramStr = "";
+
+            // 遍历options.data
+            for (var attr in options.data) {
+                // 拼接字符串
+                paramStr += "&" + attr + "=" + options.data[attr];
+            }
+
+            // 创建script标签
+            var newScript = document.createElement("script");
+
+            // 随机函数名
+            var funName = "myJsonp" + Math.random().toString(16).substr(2);
+
+            // 在全局作用域下声明一个函数
+            window[funName] = options.success;
+
+            // 设置src属性
+            newScript.src = options.url + "?callback=" + funName + paramStr;
+
+            // 把新的script添加到body标签中
+            document.body.appendChild(newScript);
+
+            // 新的script标签加载完毕
+            newScript.onload = function () {
+                // 删除
+                this.remove();
+            }
+        }
+
+        // var btn = document.querySelector("button");
+        // var telPhone = document.getElementById("telPhone");
+        $("button").click(function () {
+            var telPhoneVal = $("#telPhone").value;
+            console.log(telPhoneVal);
+
+            $.ajax({
+            url: 'https://r.inews.qq.com/api/ip2city?otype=jsonp&callback=callback&_=16614131429000',
+            dataType:'jsonp',
+            jsonp: 'callback', // 服务器callback的key名
+            // 指定的回调函数名,jq封装后无需用户自己创建对应函数名的回调函数,jq自动创建
+            // jsonpCallback: 'aabc', 
+            // 如果不设置该值,jquery会生成一个随机函数名
+            success:function(data) {
+                console.log(data);
+                var $p=("<p>")
+                    $p.text()=pohop
+                    $p.appendTo($(".box"))
+            }
+        })
+            jsonp({
+                url: "https://r.inews.qq.com/api/ip2city?otype=jsonp&callback=callback&_=16614131429000",
+                dataType:'jsonp',
+               jsonp: 'callback',
+                data: {
+                    pohop: telPhoneVal
+                },
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+
+        })
+
+
+
+       
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box {
+        width: 500px;
+        height: 300px;
+        margin: 50px 50px;
+    }
+
+    .boximg {
+        width: 480px;
+        height: 270px;
+        background: url(./121.jpg);
+        background-position: 480px 0;
+
+        /* background-size: 3500px; */
+        position: relative;
+
+
+    }
+
+    .itab {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        color: white;
+        display: none;
+    }
+
+    .zhiz {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0.5;
+        top: 0;
+        left: 0;
+        display: none;
+
+    }
+
+    .tabP {
+        width: 200px;
+        height: 50px;
+        font-size: 30px;
+        /* position: absolute; */
+        float: left;
+        left: 60px;
+        top: 50px;
+        color: white;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="boximg">
+            <!-- <img src="121.jpg" alt=""> -->
+            <div class="zhiz"></div>
+        </div>
+        <div></div>
+    </div>
+    <script>
+        var boxImg = document.querySelector(".boximg")
+        var zhiz = document.querySelector(".zhiz")
+        window.onload = function () {
+            boxImg.onmouseenter = function () {
+                zhiz.style.display = "block"
+                var i = document.createElement("i")
+                i.className = "itab"
+                i.textContent = "3:34"
+                i.style.display = "block"
+                this.appendChild(i)
+
+                boxImg.onmousemove = function (e) {
+                    var x = e.clientX * 20;
+                    boxImg.style.backgroundPosition = -x + "px", 0;
+
+                    setInterval(function () {
+                     var arr = ["2342", "5675", "78", "56757", "9999", "567575"]
+                        var newArr = arr[Math.floor(Math.random() * arr.length)]
+                        var p = document.createElement("p")
+                        p.className = "tabP"
+                        p.textContent = newArr
+                    //     // p.style["height"] = width + "px"
+                    //     // p.style["width"] = width + "px"
+                    //     // p.style["top"] = Math.random() * (boxImg.innerHeight - width) + 'px';
+                    //     // p.style["left"] = Math.random() * (boxImg.innerWidth - width) + 'px';
+                        boxImg.appendChild(p)
+                    }, 1000)
+
+                }
+
+
+            }
+
+            boxImg.onmouseleave = function () {
+                zhiz.style.display = "none"
+                // i.style.display = "none"
+                // p.style.display="none"
+                clearInterval(boxImg)
+            }
+        }
+
+        
+    </script>
+</body>
+
+</html>

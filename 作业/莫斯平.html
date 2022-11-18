@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .wrapper {
+            width: 300px;
+            height: 400px;
+            border: 2px solid gray;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        .tab-bar {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-around;
+            line-height: 30px;
+            margin-top: 320px;
+            background-color: gray;
+        }
+
+        .active {
+            color: red;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <h2 class="title">主页</h2>
+        <!-- <h2 class="title">发现</h2>
+        <h2 class="title">订单</h2>
+        <h2 class="title">我的</h2>  -->
+        <div class="tab-bar">
+            <div class="tab-item" data-path="home">主页</div>
+            <div class="tab-item" data-path="discover">发现</div>
+            <div class="tab-item" data-path="order">订单</div>
+            <div class="tab-item" data-path="mine">我的</div>
+        </div>
+    </div>
+    
+    <script>
+        // 获取dom对象
+        let tabItem = document.querySelectorAll('.tab-item')
+        let titleItem = document.querySelector('.title')
+        // 循环titleItem
+        for (let i = 0; i < tabItem.length; i++) {
+            let obj = tabItem[i]//拿到循环的每一项
+
+            obj.onclick = function () {//每一项帮点击事件
+                let list = this.parentNode.children //对节点操作
+                for (let i = 0; i < list.length; i++) {
+                    list[i].className = 'tab-item'//给list[i]每一项添加类名
+                }
+
+                this.className += ' active' //点击时添加高亮类名
+                let path = this.dataset.path //获取data-path
+                let uname = this.textContent
+
+                // history.pushState({
+                //     name: '小明',
+                //     age: 18
+                // }, '被忽略', '/bilibili.com')
+                
+                // history是h5允许操作浏览器曾经在标签页访问的历史记录,并在不刷新的前提下改变浏览的地址栏
+                // pushState () 创建新的历史记录条目，且该事件的state属性包含该历史记录条目状态对象的副本
+                history.pushState({
+                    color: i,
+                    title: uname
+                }, null, null + path)
+                unameIndex(uname, i)
+            }
+
+        }
+        function unameIndex(uname, i) {
+            titleItem.textContent = uname
+            //用下标改变对应页面颜色
+            switch (true) {
+                case i == 0:
+                    titleItem.style.color = 'pink'
+                    break
+                case i == 1:
+                    titleItem.style.color = 'blue'
+                    break
+                case i == 2:
+                    titleItem.style.color = 'green'
+                    break
+                case i == 3:
+                    titleItem.style.color = 'orange'
+                    break
+                default:
+                    console.log("ok");
+            }
+        }
+
+        //     window.onpopstate = function(event) {
+        //         console.log(location, event);
+        //    }
+        // 事件 当前历史记录页面更改时,会触发该事件
+     // 页面的前进后退才会触发此事件,pushState不会触发此事件
+        window.onpopstate = function (event) {
+            //返回去
+            let { state: { color, title } }=event
+            unameIndex(title, color)
+            // 循环重新添加类名和高亮
+            for (let i = 0; i < tabItem.length; i++) {
+                tabItem[i].className = 'tab-item'
+            }
+            tabItem[color].className += ' active'
+        }
+    </script>
+</body>
+
+</html>

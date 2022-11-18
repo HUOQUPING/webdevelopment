@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 把下面数组的首尾两个元素互换
+         var arr = ["鹿晗","王俊凯","蔡徐坤","彭于晏","周杰伦","刘德华","赵本山"];
+         console.log(arr);
+         //pop尾删除
+         var last=arr.pop()
+         //shift头删除
+         var first=arr.shift()
+         //unshift头添加
+         arr.unshift(last)
+         //push尾添加
+         arr.push(first)
+         console.log(arr);
+
+    </script>
+</body>
+</html>

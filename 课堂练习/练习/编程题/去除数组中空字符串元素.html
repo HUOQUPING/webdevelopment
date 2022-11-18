@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 1、去除数组中空字符串元素, 并输出到控制台
+var arr = ["mark","","","", "特种兵", "激光枪","","", "tom", "救护兵", "医疗箱", "kevin", "步兵", "机关枪","",""];
+输出:  ["mark", "特种兵", "激光枪", "tom", "救护兵", "医疗箱", "kevin", "步兵", "机关枪"] -->
+
+<script>
+    var arr=["mark","","","", "特种兵", "激光枪","","", "tom", "救护兵", "医疗箱", "kevin", "步兵", "机关枪","",""];
+    var newArr=[];
+    for(var i=0;i<arr.length;i++){
+        if(arr[i]!==""){
+            newArr[newArr.length]=arr[i]
+
+        }
+
+    }
+    console.log(newArr)
+</script>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h2>购物车列表</h2>
+        <ul class="shopcart">
+            <li class="food">
+                <span name="food-name">肉夹馍</span>
+                <span class="unit-price">15.3</span>
+                <span class="count">3</span>
+            </li>
+            <li class="food">
+                <span name="food-name">烧鹅饭</span>
+                <span class="unit-price">21</span>
+                <span class="count">2</span>
+            </li>
+            <li class="food">
+                <span name="food-name">水饺</span>
+                <span class="unit-price">18</span>
+                <span class="count">1</span>
+            </li>
+            <li class="food">
+                <span name="food-name">可乐</span>
+                <span class="unit-price">9</span>
+                <span class="count">4</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="shopcart-bar">
+        <h3 class="total-price"></h3>
+    </div>
+    400元起送
+    <div class="pay-btn">
+    </div>
+
+    <script>
+        var shopcart = document.getElementsByClassName('shopcart')[0]
+        var foods = shopcart.getElementsByClassName('food')
+
+        var totalPrice = 0
+        // 遍历购物车食品元素
+        for (var i = 0; i < foods.length; i++) {
+            var food = foods[i]
+            var unitPrice = food.getElementsByClassName('unit-price')[0]
+            var count = food.lastElementChild
+            // 单价乘以价格获取某个商品的总价
+            var price = unitPrice.textContent * count.textContent
+            // 所有商品总价和
+            totalPrice += price
+        }
+
+        console.log(totalPrice);
+
+        var shopcartBar = document.querySelector('.shopcart-bar')
+        var totalPriceEl = shopcartBar.querySelector('.total-price')
+
+        console.log(totalPriceEl);
+        totalPriceEl.innerHTML = '¥' + totalPrice
+
+        var descText = '立即购买'
+
+        // 起送价格
+        var staringPrice = parseFloat(shopcartBar.nextSibling.nodeValue)
+        console.log(staringPrice);
+
+        /*
+            当购物车商品总价小于起送额时，class="pay-btn"元素文本内容显示 还差xx元起送 (xx为起送额与购物车总价的差)
+            当购物车商品总价大于等于起送额时，class="pay-btn"元素文本内容显示 立即购买
+        */
+
+        if (staringPrice > totalPrice) {
+            descText = '还差' + (staringPrice - totalPrice) + '元起送'
+        }
+
+
+        var payBtn = document.querySelector('.pay-btn')
+
+        payBtn.textContent = descText
+
+
+    </script>
+</body>
+
+</html>

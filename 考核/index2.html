@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<style>
+    .theme {
+        margin-top: 10px;
+    }
+
+    .theme>.tabspan {
+        margin-left: 10px;
+    }
+
+    .active {
+        color: blue;
+    }
+
+    .main {
+        margin-top: 10px;
+    }
+
+    .mainLst {
+        width: 200px;
+        height: 200px;
+        display: inline-block;
+    }
+
+    .mainLst>img {
+        width: 130px;
+        height: 160px;
+    }
+</style>
+
+<body>
+    <div id="app">
+
+        <div class="theme">题材:
+            <span class="tabspan" v-for="(list,i) in style" 
+            @click='link1(list.styleId)' 
+            :id='list.styleId'
+                :class="{active:list.styleId===styleid}">{{list.type}}</span>
+        </div>
+        <div class="theme">地区:
+            <span class="tabspan" v-for="(list,i) in area" 
+            @click='link2(list.areaId)' :id='list.areaId'
+                :class="{active:list.areaId===areaid}">{{list.type}}</span>
+        </div>
+        <div class="theme">进度:
+            <span class="tabspan" v-for="(list,i) in isFinish" 
+            @click='link3(list.isFinishid)' :id='list.ifFinishid'
+            v-bind:class="{active:list.isFinishid===ifFinishid}">{{list.type}}</span>
+        </div>
+        <div class="theme">收费:
+            <span class="tabspan" v-for="(list,i) in isFree" 
+            @click='link4(list.isFreeid)' :id='list.isFreeid'
+            v-bind:class="{active:list.isFreeid===ifFreeid}">{{list.type}}</span>
+        </div>
+        <div class="theme">排序:
+            <span class="tabspan" v-for="(list,i) in order"
+             @click='link5(list.orderid)' :id='list.orderid'
+                :class="{active:list.orderid===orderid}">{{list.type}}</span>
+        </div>
+
+        <div class="main">
+            <div class="mainLst" v-for="list in arr">
+                <img :src="list.img">
+                <h3>{{list.tit}}</h3>
+                <p>{{list.num}}</p>
+            </div>
+        </div>
+    </div>
+    <script src="./js/axios.min.js"></script>
+    <script src="./js/data.js"></script>
+    <script>
+        
+        new Vue({
+            el: '#app',
+            data: {
+                title: '',
+                style: style,
+                area: area,
+                isFinish: isFinish,
+                isFree: isFree,
+                order: order,
+                arr: [],
+
+                styleid: -1,
+                areaid: -1,
+                ifFinishid: -1,
+                ifFreeid: -1,
+                orderid: 0,
+                // pageSize=39
+
+            },
+            created() {
+                this.getComic()
+            },
+            methods: {
+
+                async getComic() {
+                    let { data } = await axios.get(`https://apis.netstart.cn/mbcomic/ClassPage?style_id=${this.styleid}&area_id=${this.areaid}&is_finish=${this.ifFinishid}&order=${this.orderid}&is_free=${this.ifFreeid}&page_num=1&page_size=12`)
+                    // let { data } = await axios.get('./comic.json')
+                    console.log(data.data);
+
+                    let newData = data.data
+                    this.arr = []
+                    newData.forEach(ele => {
+                        this.arr.push({
+                            id: ele.discount_type,
+                            tit: ele.title,
+                            img: ele.vertical_cover,
+                            num: ele.total
+                        })
+                    });
+                },
+                
+                link1(id) {
+                    this.styleid = id
+                    this.getComic()
+                },
+                link2(id) {
+                    this.areaid = id
+                    this.getComic()
+                },
+                link3(id) {
+                    this.ifFinishid = id
+                    this.getComic()
+                },
+                link4(id) {
+                    this.ifFreeid = id
+                    this.getComic()
+                },
+                link5(id) {
+                    this.orderid = id
+                    this.getComic()
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

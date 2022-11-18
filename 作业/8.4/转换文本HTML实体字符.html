@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //   实验二： 转换文本HTML实体字符
+        // 要求：
+        // 创建一个函数，将传入的文本字符串中所有的特殊符号转换HTML实体
+        // 例子：
+        function convertHTML(str) {
+            // 用split来返回一个数组
+            var arr=str.split("");
+            // 循环arr然后判断并替换相关值
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] == "&") {
+                    arr[i]="&amp;"
+                } 
+                if (arr[i] == "<") {
+                    arr[i]= "&lt;"
+                }
+                 if(arr[i]==">"){
+                    arr[i]="&gt;"
+                }
+                if(arr[i]=='"'){
+                    arr[i]="&quot;"
+                }
+            }
+            // 用join把arr变成字符串
+            var newStr=arr.join("")
+            return newStr
+        }
+        console.log(convertHTML("Dolce & Gabbana")) // "Dolce &amp; Gabbana"
+        console.log(convertHTML("<span> 123 </span>")) // "&lt;span&gt; 123 &lt;/span&gt;"
+        console.log( convertHTML('he"ll"o world')) // 'he&quot;ll&quot;o world'
+        // (函数、数组API、遍历)
+    </script>
+</body>
+
+</html>

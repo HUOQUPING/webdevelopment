@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            margin: 10px 100px;
+            width: 500px;
+            height: 600px;
+            border: 1px solid red;
+        }
+       
+
+    </style>
+</head>
+<body>
+    <div class="box">
+    <input type="text" class="row">行<br>
+    <input type="text" class="col">列
+    <button>创建</button>
+    <table>
+
+    </table>
+    </div>
+
+    <script>
+        var row=document.querySelector(".row")
+        var col=document.querySelector(".col")
+        var btn=document.querySelector("button")
+        var table=document.querySelector(".table")
+
+
+        btn.onclick=function(){
+            var inrow=row.value
+            var incol=col.value
+
+            for(var i=0;i<inrow;i++){
+                var tbtr=document.createElement("tr")
+                console.log(tbtr);
+                table.appendChild(tbtr)
+                
+
+                for(var j=0;j<incol;i++){
+                    var tbtd=document.createElement("td")
+                    tbtr.appendChild(tbtd)
+
+                }
+
+            }
+            
+          
+    
+         
+        }
+       
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        .box{
+            width: 400px;
+            height: 500px;
+            border: 1px solid pink;
+            margin: 20px auto;
+            background-color: rgb(173, 169, 169);
+        }
+        .text{
+            width: 399px;
+            height: 50px;
+        }
+        button{
+            float: right;
+        }
+        .content{
+            width: 399px;
+            height: 100%;
+        }
+        p{
+            margin-top: 25px;
+            font-size: 18px;
+            width: 399px;
+            height: 50px;
+            background-color: honeydew;
+            position: relative;
+        }
+        span{
+            position: absolute;
+            cursor: pointer;
+            top: -5px;
+            right: 0;
+
+        }
+        div{
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <textarea class="text" placeholder="请输入你的心情"></textarea>
+        <button>发表</button>
+        <div class="content">
+           
+        </div>
+    </div>
+
+    <script>
+        //获取dom对象属性
+        var btn=document.querySelector("button")
+        var text=document.querySelector("textarea")
+        var content=document.querySelector(".content")
+       //获取时间
+     
+        var date=new Date()
+        var y=date.getFullYear()
+        var m=date.getMonth()+1
+        var d=date.getDate()
+        var h=date.getHours()
+        var mi=date.getMinutes()
+        var s=date.getSeconds()
+        //绑定btn点击事件
+        btn.onclick=function(){
+           //获取textarea的value值
+            var te=text.value
+            if(te.length===0){
+                alert("内容不能为空")
+                return;
+
+            }
+            // 创建p标签用来呈现发表的内容
+            var newp=document.createElement("p")
+            newp.innerText=te
+           // 创建span标签用来删除
+            var delspan=document.createElement("span")
+            delspan.innerText="x"
+            //创建div用来呈现时间
+            var div=document.createElement("div")
+            div.innerHTML=y+"/"+m+"/"+d+" "+h+":"+mi+":"+s
+
+            delspan.onclick=function(){
+                // 删除或移除父元素
+                this.parentNode.remove();
+            }
+            // 把创建的span和div加到p标签
+            newp.appendChild(delspan)
+            newp.appendChild(div)
+            content.appendChild(newp)
+            // 清空textarea的value
+            text.value=""
+        }
+        
+    </script>
+</body>
+</html>

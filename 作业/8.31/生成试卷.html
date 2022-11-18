@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="css/demo.css"> -->
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .box {
+        width: 640px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .box h2 {
+        height: 60px;
+        line-height: 60px;
+        background: #cccccc;
+        font-size: 18px;
+    }
+
+    .box h3 {
+        height: 40px;
+        line-height: 40px;
+        color: white;
+        background: black;
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    .box .exam_box .item .question_box {
+        height: 30px;
+        line-height: 30px;
+        font-size: 14px;
+        background: #f0f0f0;
+    }
+
+    .box .exam_box .item .answer_box {
+        height: 59px;
+        line-height: 30px;
+    }
+
+    .box .exam_box .item .answer_box ul {
+        display: flex;
+        padding-left: 20px;
+        margin-top: 8px;
+    }
+
+    .box .exam_box .item .answer_box ul li {
+        border: 1px solid transparent;
+        padding: 0px 10px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    .box .exam_box .item .answer_box ul li.active {
+        border-color: green;
+        color: green;
+    }
+
+    .box .exam_box .item .answer_box ul li:not(:first-child) {
+        margin-left: 33px;
+    }
+
+    .box button {
+        width: 200px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        
+        display: block;
+        margin: 0 auto;
+        margin-top: 30px;
+    }
+
+    .box .exam_result {
+        font-weight: bold;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .box .exam_result .exam_score {
+        color: red;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <h2>在线考试</h2>
+        <h3>一、选择题</h3>
+
+        <div class="exam_box">
+            <div class="item">
+                <div class="question_box">
+                    1. 唐太宗的名字叫?
+                </div>
+                <div class="answer_box">
+                    <ul>
+                        <li class="active">A.李渊</li>
+                        <li>B.李世民</li>
+                        <li>C.李治</li>
+                        <li>D.武则天</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="question_box">
+                    2.唐太宗把文成公主嫁给吐蕃族首领叫什么？
+                </div>
+                <div class="answer_box">
+                    <ul>
+                        <li>A.囊日论赞</li>
+                        <li class="active">B.朗达玛</li>
+                        <li>C.松赞干布</li>
+                        <li>D.扎西邹巴</li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+
+        <button>提交试卷</button>
+        <p class="exam_result">考试的成绩 <span class="exam_score">0</span></p>
+    </div>
+
+    <script>
+        // 要求:
+        // 1. 创建一个名为Page的class对象
+        // 2. 该对象在实例化时可以接受试卷数据作为参数
+        // 3. Page class的实例可以调用init初始化方法，将试卷数据通过DOM操作渲染在页面上成为网页试卷
+        // 4. 点击选择题的答案选项，背景高亮，再次点击，取消选择答案
+        // 5. 所有选择题都勾选了，才可以提交试卷，否则，不可以提交试卷
+        // 6. 当点击提交试卷，延迟300ms后，根据试卷数据提供的答案计算成绩并显示考试结果
+        let examBox = document.querySelector(".exam_box");
+        let btn = document.querySelector("button");
+        let score = document.querySelector(".exam_score")
+        class Page {
+            // 渲染题目
+            render() {
+                examBox.innerHTML = data.map((item, index) => {
+                    return `
+                    <div class="item">
+                        <div class="question_box">
+                            ${item.q}
+                        </div> 
+                    <div class="answer_box">
+                        <ul>
+                            <li>${item.options[0].name}</li>
+                            <li>${item.options[1].name}</li>
+                            <li>${item.options[2].name}</li>
+                            <li>${item.options[3].name}</li>
+                        </ul>
+                    </div>
+                </div>`
+                }).join("")
+
+            }
+
+            // 高亮选项
+            light() {
+                //保存this
+                let that = this;
+                // 绑定事件委托
+                examBox.onclick = e => {
+                    var e = e || window.event;
+                    if (e.target.nodeName === "LI") {
+                        let active = e.target.parentNode.querySelector(".active");
+                        // 再次点击取消高亮
+                        if (e.target === active) {
+                            e.target.classList.remove("active")
+                        } else {
+                            for (let i = 0; i < e.target.parentNode.children.length; i++) {
+                                e.target.parentNode.children[i].classList.remove("active");
+                            };
+                            // 点击再次高亮
+                            e.target.classList.add("active");
+                        }
+
+                    }
+                }
+            }
+
+            // 点击与分数
+            score() {
+                let that = this
+                btn.onclick = () => {
+                    let active = document.querySelectorAll(".active");
+                    // 没有全部选中,就提醒用户
+                    if (active.length < 5) {
+                        alert("还有题目未选择!")
+                        return;
+                    }
+                    // 总分
+                    let totle = 0;
+
+                    that.data.forEach((item, index) => {
+                        // 如果答案与被选的那个值相当，那就加分
+                        if (item.answer == active[index].innerText[0]) {
+                            totle += 20
+                        }
+                    })
+
+                    // 延迟器
+                    setTimeout(() => {
+                        score.innerHTML = totle
+                    }, 300)
+
+                }
+            }
+        //补充剩余代码
+            constructor(data) {
+                this.data = data;
+            }
+
+            // 初始化函数
+            init() {
+                // 渲染
+                this.render();
+                // 高亮
+                this.light();
+                // 提交分数
+                this.score();
+            }
+        }
+
+        // 试卷数据
+        let data = [
+            {
+                "q": "1.唐太宗的名字叫？",
+                "options": [
+                    {
+                        "name": "A.李渊"
+                    },
+                    {
+                        "name": "B.李世民"
+                    },
+                    {
+                        "name": "C.李治"
+                    },
+                    {
+                        "name": "D.武则天"
+                    }
+                ],
+                "score": 20,
+                "answer": "B"
+            },
+            {
+                "q": "2.唐太宗把文成公主嫁给吐蕃族首领叫什么？",
+                "options": [
+                    {
+                        "name": "A.囊日论赞"
+                    },
+                    {
+                        "name": "B.朗达玛"
+                    },
+                    {
+                        "name": "C.松赞干布"
+                    },
+                    {
+                        "name": "D.扎西邹巴"
+                    }
+                ],
+                "score": 20,
+                "answer": "C"
+            },
+            {
+                "q": "3.1661年,收复了台湾的民族英雄是谁？",
+                "options": [
+                    {
+                        "name": "A.郑成功"
+                    },
+                    {
+                        "name": "B.戚继光"
+                    },
+                    {
+                        "name": "C.林则徐"
+                    },
+                    {
+                        "name": "D.李元芳"
+                    }
+                ],
+                "score": 20,
+                "answer": "A"
+            },
+            {
+                "q": "4.我国历史上的第一个皇帝是？",
+                "options": [
+                    {
+                        "name": "A.禹"
+                    },
+                    {
+                        "name": "B.姬发"
+                    },
+                    {
+                        "name": "C.秦始皇"
+                    },
+                    {
+                        "name": "D.刘备"
+                    }
+                ],
+                "score": 20,
+                "answer": "C"
+            },
+            {
+                "q": "5.被后人尊奉为中华民族“人文始祖”的是？",
+                "options": [
+                    {
+                        "name": "A.黄帝"
+                    },
+                    {
+                        "name": "B.伏羲"
+                    },
+                    {
+                        "name": "C.炎帝"
+                    },
+                    {
+                        "name": "D.以上都是"
+                    }
+                ],
+                "score": 20,
+                "answer": "D"
+            }
+        ];
+
+        const app = new Page(data);
+        app.init();
+    </script>
+</body>
+
+</html>

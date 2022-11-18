@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+     /* .s-1::after{
+            content: '';
+            display: block;
+            width: 50px;
+            height: 50px;
+            background-image: url(./images/block.gif);
+            background-size: 100% 100%;
+            position: relative;
+            z-index: 9999;
+         } 
+    */
+      div{
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        background-color: rgb(149,213,47);
+        background-image: url(./images/block.gif);
+        background-repeat: no-repeat;
+        vertical-align: bottom;
+        background-size: 100% 100%;
+        
+
+       }
+       .s-0::after{
+           width: 50px;
+           height: 50px;
+           display: block;
+           content: "";
+           position: relative;
+           background-image: url(./images/block.gif);
+           background-repeat: no-repeat;
+           background-size: 100% 100%;
+           
+        }
+
+        .s-1::after{
+            width: 50px;
+           height: 50px;
+            display: block;
+           content: "";
+           position: relative;
+            background-image: url(./images/wall.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+         
+        }
+
+        .s-2::after {
+            width: 50px;
+           height: 50px;
+            display: block;
+            content: "";
+           position: relative;
+            background-image: url(./images/ball.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+           
+        }
+
+        .s-3::after{
+            width: 50px;
+           height: 50px;
+            display: block;
+            content: "";
+           position: relative;
+            background-image: url(./images/box.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .s-4::after {
+            width: 50px;
+           height: 50px;
+            display: block;
+            content: "";
+           position: relative;
+            background-image: url(./images/down.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        } 
+</style>
+<body>
+    <script>
+        var gameMap = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 1, 1, 1, 3, 0, 3, 2, 1, 0, 0],
+            [0, 0, 1, 2, 0, 3, 4, 1, 1, 1, 0, 0],
+            [0, 0, 1, 1, 1, 1, 3, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+       var str="";
+       for(var i=0;i<gameMap.length;i++){
+           for(var j=0;j<gameMap[i].length;j++){
+               str+="<div class='s-"+gameMap[i][j]+"'></div>"
+           }
+           str+="<br/>"
+       }
+      document.write(str)
+    </script>
+</body>
+
+</html>

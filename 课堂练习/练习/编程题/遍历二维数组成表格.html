@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td{
+            text-align: center;
+        }
+        tr:first-child{
+            background-color: plum;
+            font-weight: 600;
+        }
+        table{
+            border-collapse: collapse;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // 二维数组遍历成表格；
+        // 方法首先创建表格然后在表格内遍历二维数组再字符串拼接；
+        var arr = [ 
+            ["姓名","性别","年龄","科目"],
+			['小A','女',21,'PHP'],
+			['小B','男',23,'C'],
+			['小C','男',24,'C'],
+			['小D','女',21,'PHP'],
+			['小E','女',22,'C'],
+			['小F','男',21,'PHP'],
+			['小G','女',22,'JAVA'],
+			['小H','女',20,'JAVA'],
+			['小I','女',20,'PHP'],
+			['小J','男',20,'PHP']
+  		];
+        //   创建表格table开始
+          var str="<table border='1'width='500'>"
+        //    str+="<tr><th>姓名</th> <th>性别</th><th>年龄</th><th>科目</th></tr>"
+        // 在表格内遍历arr外循环行；根据arr长度来遍历，不然会写死长度；
+          for(var i=0;i<arr.length;i++){
+              str+="<tr>"
+                // 内循环td列后字符串拼接
+                for(var j=0;j<arr[i].length;j++){
+                   str+="<td >"+arr[i][j]+"</td>"
+                }
+              str+="</tr>"
+
+          }
+        // 表格table结束
+          str+="<table>"
+          document.write(str)
+    </script>
+</body>
+</html>

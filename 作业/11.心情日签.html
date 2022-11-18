@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            margin: 0 auto;
+            padding: 10px;
+            width: 460px;
+            background-color: #ccc;
+        }
+
+        .main header {
+            overflow: hidden;
+        }
+
+        .main textarea {
+            box-sizing: border-box;
+            width: 100%;
+            height: 80px;
+            font-size: 20px;
+        }
+
+        .main .send {
+            float: right;
+        }
+
+        ul {
+            margin-top: 10px;
+            list-style: none;
+            padding: 10px;
+
+        }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            box-sizing: border-box;
+            margin-bottom: 5px;
+            padding: 5px;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .list-item .left-div {
+            flex: 1;
+        }
+
+        .list-item .remove-btn {
+            flex: 0 0 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+            background-color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <header>
+            <textarea></textarea>
+            <button class="send">发表</button>
+        </header>
+        <ul class="list"></ul>
+    </div>
+    <script>
+        var textarea = document.querySelector('textarea')
+        var sendBtn = document.querySelector('.send')
+        var list = document.querySelector('.list')
+
+        sendBtn.onclick = function () {
+            // 获取多行文本输入框的值
+            var text = textarea.value.trim()
+            if (!text) {
+                alert('输入框内容不能为空')
+            } else {
+                // 获取事件
+                var time = new Date()
+                // 获取年月日时分秒
+                var year = time.getFullYear()
+                var M = time.getMonth() + 1
+                var d = time.getDate()
+                var h = time.getHours()
+                var m = time.getMinutes()
+                var s = time.getSeconds()
+
+                time = year + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s
+
+                createListItem({ text: text, time: time })
+            }
+
+            // 每次发表清空输入框
+            textarea.value = ''
+        }
+        // item {text:文本内容, time: 时间}
+        function createListItem(item) {
+            var li = document.createElement('li')
+            li.className = 'list-item'
+            list.appendChild(li)
+
+            var leftDiv = document.createElement('div')
+            leftDiv.className = 'left-div'
+            li.appendChild(leftDiv)
+
+
+            // 文本内容
+            var h3 = document.createElement('h3')
+            // 不能将innerHTML暴露给用户
+            h3.textContent = item.text
+            h3.ondblclick = function () {
+                console.log('双击');
+                // 隐藏h3元素
+                this.style.display = 'none'
+                // 显示input元素
+                this.nextElementSibling.style.display = 'block'
+
+            }
+
+            leftDiv.appendChild(h3)
+
+
+            // 创建input元素实现双击修改功能
+            var input = document.createElement('input')
+            input.value = item.text
+            input.style.display = 'none'
+            leftDiv.appendChild(input)
+            // 失去光标
+            input.onblur = function() {
+                console.log('失去光标');
+                this.style.display = 'none'
+                this.previousElementSibling.style.display = 'block'
+                // 表单的值反向修改h3元素的文本内容
+                this.previousElementSibling.textContent = this.value
+            }
+
+            var p = document.createElement('p')
+            p.textContent = item.time
+            leftDiv.appendChild(p)
+
+            var removeBtn = document.createElement('div')
+            removeBtn.innerHTML = 'x'
+            removeBtn.classList = 'remove-btn'
+            removeBtn.onclick = function () {
+                console.log('我被点击了', this);
+                // 函数的this 谁调用他就是谁,removeBtn 调用的函数
+                // 时间中的this就是监听点击事件的removeBtn
+                // 找到父元素 parentNode 补充支持
+                console.log(this.parentNode, li);
+
+                // list.removeChild(li)
+                // 推荐使用this
+                list.removeChild(this.parentNode)
+
+            }
+            li.appendChild(removeBtn)
+        }
+
+    </script>
+</body>
+
+</html>

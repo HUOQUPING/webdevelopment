@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="./css/index.css" class="css">
+    <link rel="stylesheet" href="./css/transition.css">
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <div class="header">
+                <div class="logo">
+                    <img src="./images/logo.svg">
+                </div>
+                <span class="title">
+                    To-Do List
+                </span>
+            </div>
+        </header>
+
+        <div class="form">
+            <div class="title">
+                <span>~ Today I need to ~</span>
+            </div>
+            <div class="input-container">
+                <div class="input">
+                    <input type="text" v-model="inputData.value" @keydown.enter="addTodoItem"
+                        placeholder="Add new todo...">
+                </div>
+                <button :class="[{down:!btnstatus}]" @click="addTodoItem" @mousedown="btndown"
+                    @mouseup="btnup"><span>Submit</span></button>
+
+            </div>
+        </div>
+        <!--  @before-enter="comHandel" @enter="comEnterHandel"
+            @after-enter="comAfterHandel" -->
+        <transition-group tag="ul" class="todo-list" name="todo-c">
+            <li :class="['todo-item',{completed:item.status}]" v-for="item in todoListData" :data-todo-id="item.id"
+                @click="statusChange" :key="item.id"
+                v-show="item.isShow&&(options.all||(options.active&&!item.status)||(options.completed&&item.status))">
+                <div class="checkbox">
+                    <div class="i-active" v-if="!item.status"></div>
+                    <div class="i-completed" v-if="item.status"></div>
+                </div>
+                <p>{{item.value}}</p>
+
+                <div class="delete" @click="deleteItem">×</div>
+            </li>
+        </transition-group>
+
+
+        <footer>
+            <div class="empty" v-if="todoStatusList.hasTodoItem==0">
+                <span>Congrat, you have no more tasks to do</span>
+            </div>
+            <ul class="option" v-if="!todoStatusList.hasTodoItem==0">
+                <li class="item-count">{{todoStatusList.hasTodoItem}} item left</li>
+                <li :class="['all-item',{choose:options.all}]"
+                    @click="options.all=true;options.active=false;options.completed=false">All</li>
+                <li :class="['active-item',{choose:options.active}]"
+                    v-if="todoStatusList.active!=0&&todoStatusList.completed!=0"
+                    @click="options.all=false;options.active=true;options.completed=false">Active</li>
+                <li :class="['completed-item',{choose:options.completed}]" v-if="todoStatusList.completed!=0"
+                    @click="options.all=false;options.active=false;options.completed=true">Completed</li>
+                <li class="clear-c-item" v-if="todoStatusList.completed!=0" @click="cleanCompleted">Clear completed</li>
+            </ul>
+        </footer>
+    </div>
+    <script>
+
+        let vTodoList = new Vue({
+            el: '#app',
+            data: {
+                inputData: {
+                    value: ''
+                },
+                todoListData: [],
+                todoStatusList: {
+                    hasTodoItem: 0,
+                    completed: 0,
+                    active: 0
+                },
+                options: {
+                    all: true,
+                    active: false,
+                    completed: false,
+                },
+                btnstatus: false
+            },
+            methods: {
+                addTodoItem() {
+                    if (!this.inputData.value.trim()) {
+                        return
+                    }
+                    let id = this.getId()
+
+                    let newTodoItem = {
+                        value: this.inputData.value,
+                        status: false,
+                        id: id,
+                        isShow: true
+                    }
+                    this.todoStatusList.hasTodoItem++
+                    this.todoStatusList.active++
+                    this.inputData.value = ''
+                    this.todoListData.push(newTodoItem)
+                    this.initOptions()
+                },
+                statusChange(e) {
+                    if (e.target.className == 'delete') {
+                        return
+                    }
+                    let id = e.path[1].dataset.todoId ?? e.path[2].dataset.todoId
+                    for (let i = 0; i < this.todoListData.length; i++) {
+                        if (id == this.todoListData[i].id) {
+                            this.todoListData[i].isShow = false
+                            this.todoListData[i].isShow = true
+
+                            this.todoListData[i].status = !this.todoListData[i].status
+                            if (this.todoListData[i].status) {
+                                this.todoStatusList.completed++
+                                this.todoStatusList.active--
+                            } else {
+                                this.todoStatusList.completed--
+                                this.todoStatusList.active++
+                            }
+                            break
+                        }
+                    }
+                },
+                getId() {
+                    let id = String(Math.random()).slice(2, 8)
+
+                    for (let i = 0; i < this.todoListData.length; i++) {
+                        if (id == this.todoListData[i].id) {
+                            id = this.getId()
+                            break
+                        }
+                    }
+                    return id
+                },
+                cleanCompleted() {
+                    let num = 0
+                    this.todoListData = this.todoListData.filter(i => {
+                        if (i.status) {
+                            num++
+                        }
+                        return !i.status
+                    })
+                    this.todoStatusList.hasTodoItem = this.todoStatusList.hasTodoItem - num
+                    this.todoStatusList.active = this.todoStatusList.hasTodoItem
+                    this.todoStatusList.completed = 0
+                    this.initOptions()
+                },
+                initOptions() {
+                    this.options.all = true
+                    this.options.active = false
+                    this.options.completed = false
+                },
+                deleteItem(e) {
+                    let id = e.path[1].dataset.todoId ?? e.path[2].dataset.todoId
+                    console.log(e.path);
+                    let li = e.path[1]
+                    li.style.transition = 'all 0s linear'
+                    // e.path[2]?.style.transition = 'all 0s linear'
+
+                    console.log(id);
+                    this.todoListData = this.todoListData.filter(i => {
+                        if (i.id == id) {
+                            if (i.status) {
+                                this.todoStatusList.completed--
+                            } else {
+                                this.todoStatusList.active--
+                            }
+                            return false
+                        } else {
+                            return true
+                        }
+                    })
+                    this.todoStatusList.hasTodoItem--
+                    if (this.todoStatusList.completed == 0||(this.todoStatusList.active==0&&this.options.active)) {
+                        this.initOptions()
+                    }
+                },
+                btndown(e) {
+                    this.btnstatus = true
+                    e.path[1].style.transform = 'rotate(0deg)'
+                    e.path[1].style.transform = 'translateY(5px)'
+
+                },
+                btnup(e) {
+                    this.btnstatus = false
+                    e.path[1].style.transform = 'translateY(-5px)'
+                    e.path[1].style.transform = 'rotate(4deg)'
+                },
+                comHandel(e) {
+                    // if()
+                    // e.style.width='10px'
+                    console.log('动画开始了', e);
+                    // e.style.backgroundColor = 'red'
+                    e.style.transition = "all .5s linear"
+                },
+                comEnterHandel(e, done) {
+                    console.log('动画执行中');
+                    e.offsetHeight
+                    e.style.transition = "all .5s linear"
+                    let step = 0
+                    e.ontransitionend = function () {
+                        step++
+                        if (step == 1) {
+                            e.style.transition = "all .5s linear"
+                        } else {
+                            done()
+                        }
+                    }
+                },
+                comAfterHandel(e) {
+                    console.log('动画结束了');
+                    e.style.transition = "all 0s linear"
+                    e.ontransitionend = null
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>

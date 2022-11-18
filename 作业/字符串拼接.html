@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+      var  celsius = prompt('请输入摄氏度');
+      //摄氏度 = 5/9 * (华氏度 - 32)
+      var h=celsius*9/5+32
+      alert("华摄氏度:"+ h)
+     
+
+
+
+     var userName = "慢羊羊";
+        var sex = "男";
+        var age = "54岁";
+        var education = "博士后";
+        var graduationDate = "1988年";
+        var graduateInstitutions = "清华大学";
+        var workingTime = "1988年7月30日";
+        var responsibilities = "哈哈哈哈,工作职责就是工作者具体工作的内容所负的责任及达到岗位要求的标准，完成上级交付的任务。";
+
+        // var str="";
+        //     str+=("<table border='1' cellspacing=0>");
+        //     str+=("<tr><td colspan='4' style='text-align:center;'>慢羊羊的个人简历</td></tr>");
+        //     str+=("<tr><td>姓名：</td> <td>"+userName+"</td> <td>性别：</td> <td>"+sex+"</td></tr>");
+        //     str+=("<tr><td>年龄：</td> <td>"+age+"</td> <td>学历：</td> <td>"+education+"</td></tr>");
+        //     str+=("<tr><td>毕业时间：</td> <td>"+graduationDate+"</td> <td>毕业学校：</td> <td>"+graduateInstitutions+"</td></tr>");
+        //     str+=("<tr><td>工作时间：</td> <td>"+workingTime+"</td> <td>工作职责：</td> <td>"+responsibilities+"</td></tr>");
+        //     str+=("</table>");
+        //     document.write(str)
+            var str = "";
+            // 拼接字符串
+            str += "<table border=\"1\" style=\"border-collapse:collapse\">";
+            // 第一行
+            str += "<tr>";
+            str += "<th colspan=\"4\">" + userName + "-个人简历</th>";
+            str += "</tr>";
+            // 第二行
+            str += "<tr>";
+            str += "<td>姓名:</td>";
+            str += "<td>" + userName +"</td>";
+            str += "<td>性别:</td>";
+            str += "<td>" + sex +"</td>";
+            str += "</tr>";
+            // 第三行
+            str += "<tr>";
+            str += "<td>年龄:</td>";
+            str += "<td>" + age +"</td>";
+            str += "<td>学历:</td>";
+            str += "<td>" + education +"</td>";
+            str += "</tr>";
+            // 第四行
+            str += "<tr>";
+            str += "<td>毕业时间:</td>";
+            str += "<td>" + graduationDate + "</td>";
+            str += "<td>毕业学校:</td>";
+            str += "<td>" + graduateInstitutions + "</td>";
+            str += "</tr>";
+            // 第五行
+            str += "<tr>";
+            str += "<td>工作时间:</td>";
+            str += "<td>" + workingTime + "</td>";
+            str += "<td>工作职责:</td>";
+            str += "<td>" + responsibilities + "</td>";
+            str += "</tr>";
+            
+            str += "</table>";
+            // 页面输出str
+            document.write( str );
+
+
+                
+    </script>
+</body>
+</html>

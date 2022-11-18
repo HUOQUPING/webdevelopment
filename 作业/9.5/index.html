@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .banner03 {
+            width: 100%;
+        }
+        img{
+            width: 100%;
+            height: auto;
+        }
+        .banner03_content {
+            height: 650px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner03_content ul {
+            width: 650px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .banner03_content ul li {
+            width: 650px;
+            height: 650px;
+            float: left;
+        }
+
+        .banner03_content ul li img {
+            width: 100%;
+            height: auto;
+        }
+
+        #banner03_index {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            text-align: center;
+            height: 5px;
+            bottom: 5%;
+        }
+
+        #banner03_index i {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            margin: 0 10px;
+            background: rgba(255, 255, 255, .2);
+        }
+
+        .banner03_content span {
+            opacity: .2;
+        }
+
+        /* #banner03_left {
+            left: 5%;
+            transform: rotate(180deg);
+        } */
+
+        #banner03_right {
+            right: 5%;
+        }
+
+        .banner03_content span:hover {
+            opacity: 1;
+        }
+
+        .banner03_content span {
+            display: block;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            cursor: pointer;
+            transition: .5s all;
+            width: 10px;
+            height: 10px;
+            margin-top: -29px;
+            /* background: url(images/right.png) no-repeat center; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner03">
+        <div class="banner03_content">
+            <ul>
+                <!-- <li>
+                    <a><img src="./imgs/3.jpg"></a>
+                </li> -->
+                <li>
+                    <a><img src="./imgs/1.jpg"></a>
+                </li>
+                <li>
+                    <a><img src="./imgs/2.jpg"></a>
+                </li>
+                <li>
+                    <a><img src="./imgs/3.jpg"></a>
+                </li>
+                <!-- <li>
+                    <a><img src="./imgs/1.jpg"></a>
+                </li> -->
+            </ul>
+             <div id="banner03_index"></div>
+            <!-- <span id="banner03_left"></span>
+            <span id="banner03_right"></span>  -->
+        </div>
+    </div>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            BannerPro({
+                positions: $(".banner03_content"),
+                boxs: $(".banner03_content ul"),
+                sign: $("#banner03_index"),
+                // leftClick: $("#banner03_left"),
+                // rightClick: $("#banner03_lright"),
+                heights: false,
+                direction: "left"
+            })
+        })
+
+        function BannerPro(objs) {
+            if (!objs.direction) objs.direction = "left"
+            if (!objs.transitionTime) objs.transitionTime = 600
+            if (!objs.stopTime) objs.stopTime = 4000
+            if (!objs.odstyle) objs.odstyle = {
+                "background": "rgba(255,255,255,.2)"
+            }
+            if (!objs.newstyle) objs.newstyle = {
+                "background": "rgba(255,255,255,1)"
+            }
+            var winWidth = $(window).width();
+            objs.positions.width(winWidth);
+            var imgHei = objs.boxs.find("img").first().height()
+            if (!objs.heights) {
+                imgHei = imgHei / (1920 / winWidth)
+                objs.positions.height(imgHei)
+                objs.boxs.children().height(imgHei)
+            }
+            var index = 1;
+            for (var i = 0; i < objs.boxs.children().length; i++) {
+                objs.sign.append("<i></i>");
+            }
+            var endImg = objs.boxs.children().first().clone();
+            var stupImg = objs.boxs.children().last().clone();
+            objs.boxs.append(endImg).prepend(stupImg);
+            var lengths = objs.boxs.children().length;
+            objs.boxs.children().width(winWidth);
+            var eleheight = objs.boxs.children().first().height()
+            if (objs.direction == "left") {
+                objs.boxs.width(winWidth * lengths).css("left", -winWidth);
+            } else if (objs.direction == "top") {
+                objs.boxs.height(eleheight * lengths).css("top", -eleheight);
+            } 
+            objs.sign.children().first().css(objs.newstyle);
+            objs.sign.children().click(function () {
+                objs.sign.children().css(objs.odstyle);
+                $(this).css(objs.newstyle);
+                index = $(this).index() + 1;
+                if (objs.direction == "left") {
+                    objs.boxs.stop(true, true).animate({
+                        "left": -index * winWidth
+                    }, objs.transitionTime);
+                } else if (objs.direction == "top") {
+                    objs.boxs.stop(true, true).animate({
+                        "top": -index * eleheight
+                    }, objs.transitionTime);
+                } 
+            });
+            $(window).resize(function () {
+                winWidth = $(window).width();
+                objs.positions.width(winWidth);
+                objs.boxs.children().width(winWidth);
+                var imgHeis = objs.boxs.find("img").first().height()
+                if (!objs.heights) {
+                    objs.positions.height(imgHeis)
+                    objs.boxs.children().height(imgHeis)
+                }
+                if (objs.direction == "left") {
+                    objs.boxs.width(winWidth * lengths);
+                } else {
+                    objs.boxs.width(winWidth);
+                }
+            });
+            // objs.leftClick.click(function () {
+            //     leftClicks("leftClick");
+            // });
+            // objs.rightClick.click(function () {
+            //     leftClicks("rightClick");
+            // });
+
+            function leftClicks(obj) {
+                if (index < lengths) {
+                    if (obj != "rightClick") {
+                        objs.sign.children().css(objs.odstyle);
+                        objs.sign.children().eq(index).css(objs.newstyle);
+                        index++;
+                    } else {
+                        index--;
+                        objs.sign.children().css(objs.odstyle);
+                        objs.sign.children().eq(index - 1).css(objs.newstyle);
+                    }
+                    if (objs.direction == "left") {
+                        objs.boxs.stop(true, true).animate({
+                            "left": -index * winWidth
+                        }, objs.transitionTime, function () {
+                            yiDong(winWidth, obj)
+                        });
+                    } else if (objs.direction == "top") {
+                        objs.boxs.stop(true, true).animate({
+                            "top": -index * eleheight
+                        }, objs.transitionTime, function () {
+                            yiDong(eleheight, obj)
+                        });
+                    }
+                }
+            }
+
+            function yiDong(ehs, obj) {
+                if (obj != "rightClick" && index == lengths - 1) {
+                    index = 1;
+                    objs.boxs.css(objs.direction, -ehs);
+                    objs.sign.children().eq(0).css(objs.newstyle);
+                } else {
+                    if (index == 0) {
+                        index = lengths - 2;
+                        objs.boxs.css(objs.direction, -ehs * (lengths - 2));
+                        objs.sign.children().css(objs.odstyle);
+                        objs.sign.children().eq(index - 1).css(objs.newstyle);
+                    }
+                }
+            }
+            var carouselTime = setInterval(function () {
+                leftClicks("leftClick");
+            }, objs.stopTime);
+            objs.positions.hover(function () {
+                clearInterval(carouselTime);
+                carouselTime = null;
+            }, function () {
+                if (!carouselTime) {
+                    carouselTime = setInterval(leftClicks, objs.stopTime);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

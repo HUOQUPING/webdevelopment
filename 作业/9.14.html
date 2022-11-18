@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 500px;
+            height: 650px;
+            border: 1px solid black;
+            /* box-shadow: 4px 4px 4px grey; */
+            margin: 10px 10px;
+        }
+
+        canvas {
+
+            margin-top: 20px;
+            border-top: 2px solid white;
+        }
+
+        #btn {
+            margin-left: 30px;
+        }
+
+        span {
+            margin-left: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+        <input type="button" name="" id="btn" value="清空画板">
+        <span>选择线条</span>
+        <select id="sel">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <span>选择颜色</span>
+        <input type="color" id="col">
+        <button class="eraser">橡皮擦</button>
+        <canvas id="cont" width="500" height="600"></canvas>
+
+    </div>
+    <script>
+        let myCanvas = document.getElementById("cont");
+        let txt = myCanvas.getContext("2d");
+        let btn = document.getElementById("btn");
+        let sel = document.getElementById("sel");
+        let eraser = document.querySelector(".eraser")
+
+        let iseraser = false
+
+        myCanvas.onmousedown = function (event) {
+            let eve = window.event || event;
+            x = eve.offsetX;
+            y = eve.offsetY;
+            txt.beginPath();
+            txt.moveTo(x, y);
+            txt.lineWidth = sel.value;
+
+            myCanvas.onmousemove = function (event) {
+                let eve = window.event || event;
+                mx = eve.offsetX;
+                my = eve.offsetY;
+                txt.lineTo(mx, my);
+                txt.strokeStyle = col.value;
+                txt.stroke();
+            }
+        }
+
+
+        myCanvas.onmouseup = function (event) {
+            let eve = window.event || event;
+            myCanvas.onmousemove = null;
+        }
+        btn.onclick = function () {
+            txt.clearRect(0, 0, 500, 600);
+        }
+
+
+        eraser.onclick = function () {
+            txt.strokeStyle = "white"
+            iseraser=true
+            
+
+        }
+
+
+    </script>
+</body>
+
+</html>

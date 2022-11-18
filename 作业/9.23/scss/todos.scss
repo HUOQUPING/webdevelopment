@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+body {
+    background-image: linear-gradient(45deg, #fe94ff, #ff7957);
+    background-repeat: no-repeat;
+}
+#app {
+    width: 500px;
+    height: 100%;
+    margin: 100px auto;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+
+
+    .head {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.head>img {
+    width: 100px;
+    height: 100px;
+}
+
+.head>span {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    display: inline-block;
+    background-color: tomato;
+    color: white;
+    margin-left: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.pan-head {
+    width: 100%;
+    height: 90px;
+    border-bottom: 2px tomato dashed;
+}
+
+.pan-head>h2 {
+    margin: 30px 100px;
+}
+
+.pan-head>input {
+    margin-left: 120px;
+    height: 20px;
+    border: 0;
+    outline: none;
+}
+
+.pan-footer {
+    margin-top: 15px;
+}
+
+.pan-footer>.pan-li {
+    display: flex;
+    justify-content: space-around;
+}
+
+.pan-footer>.pan-li>li>a {
+    background-color: tomato;
+    text-decoration: none;
+    border-radius: 5px;
+    /* width: 50px; */
+    height: 25px;
+    color: white;
+}
+
+.pan-middle>.li-item {
+    width: 100%;
+    /* height: 20px; */
+    /* border: 2px solid gray; */
+    margin-top: 5px;
+}
+
+/* .pan-middle>.li-item>div{
+    display: flex;
+    justify-content: space-between;
+} */
+.pan-middle>.li-item>div>input {
+    width: 15px;
+}
+
+.pan-middle>.li-item>div>span {
+    margin-left: 2px;
+}
+
+.pan-middle>.li-item>div>button {
+    float: right;
+    width: 15px;
+    height: 15px;
+}
+
+.del{
+        text-decoration:line-through;
+        color: #ccc;
+        background-color: chocolate;
+    }
+
+}
+

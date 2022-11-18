@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .box {
+            width: 300px;
+            margin-left: 10px;
+            border: 2px solid black;
+        }
+
+        ul {
+            width: 100%;
+        }
+
+        li {
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        button {
+            width: 100px;
+            height: 30px;
+            float: right;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .active {
+            color: white;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <ul class="box-ul">
+
+        </ul>
+    </div>
+    <script>
+        var songs = [
+            { id: 1, name: "会不会（吉他版）" },
+            { id: 2, name: "是但求其爱" },
+            { id: 3, name: "我很好（吉他版）" },
+            { id: 4, name: "海底" },
+            { id: 5, name: "执迷不悟" },
+            { id: 6, name: "他只是经过" },
+            { id: 7, name: "经济舱 (Live)" },
+            { id: 8, name: "是想你的声音啊" },
+            { id: 9, name: "苦尽甘来" },
+            { id: 10, name: "天外来物" },
+        ]
+    //  要求：
+    //    1.每一首歌都有一个 “收藏/取消收藏” 按钮
+    //    2.当歌曲已被收藏时按钮显式“取消收藏”，否则显式“收藏”
+    //    3.创建一个收藏列表，将所有已收藏的歌曲展示在列表中
+    //    4.将收藏的歌曲信息存储在localStorage中持久保存，保证每次打开页面已收藏的歌曲都会正确展示在收藏列表中
+        // 获取dom对象
+        let box = document.querySelector('.box')
+        let boxUl = document.querySelector('.box-ul')
+        // 循环songs数据
+        for (let i = 0; i < songs.length; i++) {
+
+            // 创建li标签
+            let li = document.createElement('li')
+
+            // setAttribute把指定的属性设置为指定的,不存在具有指定名属性该方法将创建一个新属性。
+            li.setAttribute('id', songs[i].id)
+            // 把songs的name渲染到li标签里面
+            li.textContent = songs[i].name
+            // 创建一个按钮
+            let btn = document.createElement("button")
+            btn.textContent = '未收藏'
+            li.appendChild(btn)
+            boxUl.appendChild(li)
+        }
+       //创建一个数组        
+        let arr = []
+        // 添加绑定事件
+        boxUl.onclick = function (e) {
+            let e1 = e.target
+            // console.log(e1);
+            // parentNode返回指定节点的父节点
+            let e2 = e1.parentNode
+            // console.log(e2);
+
+            if (e1.tagName == 'BUTTON') {
+                // contains判断包含关系，
+                if (e1.classList.contains('active')) {
+                    // 遍历数组
+                    arr.forEach((value, index) => {
+                        if (value.id == e2.id) {
+                            arr.splice(index, 1)
+                        }
+                    })
+                    // 移除类名
+                    e1.classList.remove('active')
+                    e1.textContent = '未收藏'
+                } else {
+                    arr.push({ id: e2.id, name: e2.firstChild.textContent })
+                    // 添加类名
+                    e1.classList.add('active')
+                    e1.textContent = '取消收藏'
+                }
+                // 本地存储songs数据，JSON.stringify()转换成字符串，然后再进行本地化存储。
+                localStorage.songs = JSON.stringify(arr)
+            }
+        }
+    </script>
+</body>
+</html>

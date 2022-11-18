@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 实验一：判断字符串是否是回文
+        // 介绍：回文，指在忽略字符串大小写和空格的前提下，正着读和反着读一模一样的字符串。
+        // 要求：
+        // 如果给定的一个字符串是回文，那么返回true，否则返回false。
+        // 检查回文时，你需要先除去所有空格
+        //方法一
+        function palindrome(str) {
+            // 转小写去空格
+            var s=str.split("").filter(function(item){
+                return item!=" "
+            })
+             var str1=s.join("").toLowerCase()//.replace(/ /g,"");
+            // 定义新字符串
+            var newStr=""
+            // 倒序循环
+            for (var i=str1.length-1; i >=0; i--) {
+                // 把倒序的每一个值放到新字符串里,用来后面比较
+                newStr+=str1[i]
+            }
+            //判断回文是否相等，是返回true：false
+             if(newStr===str1){
+                return true
+            }else{
+                return false
+            } 
+        }
+       // 方法二：用正则
+        // function palindrome(str) {
+        //     // 转小写去空格
+        //      var s=str.toLowerCase().replace(/ /g,"");
+        //     // 定义新字符串
+        //     var newStr=""
+        //     // 倒序循环
+        //     for (var i=s.length-1; i >=0; i--) {
+        //         // 把倒序的每一个值放到新字符串里,用来后面比较
+        //         newStr+=s[i]
+        //     }
+        //     //判断回文是否相等，是返回true：false
+        //      if(newStr===s){
+        //         return true
+        //     }else{
+        //         return false
+        //     } 
+        // }
+        console.log(palindrome("not a palindrome"))// 应该返回 false。
+        console.log(palindrome("A man a plan a canal Panama")) // 应该返回 true。
+        console.log(palindrome("never odd or even"))// 应该返回 true。
+        console.log(palindrome("nope"))// 应该返回 false。
+        console.log(palindrome("almostomla"))// 应该返回 false。
+        console.log(palindrome("My age is 0 0 si ega ym"))// 应该返回 true。
+        console.log(palindrome("Eye1 for of 1 eye"))// 应该返回 true。
+    </script>
+</body>
+
+</html>

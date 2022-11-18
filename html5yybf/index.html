@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<!-- <script src="./content.js"></script>
+    <script src="./jquery-3.6.0.min.js"></script> -->
+	<style type="text/css">
+	*{
+		padding: 0;
+		margin: 0
+	}
+	@font-face {font-family: 'iconfont';
+    src: url('font/iconfont.eot'); /* IE9*/
+    src: url('font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('font/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('font/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+	/* .clear{} */
+	.clear::after{
+		content: "";
+		display: block;
+		width: 100%;
+		height: 0;
+		clear: both;
+	}
+	.container{
+		position: absolute;
+		top:40%;
+		left: 26%;
+		margin-left: -26%;
+		margin-top: -300px;
+		/*width: 1000px;*/
+		/*height: 700px;*/
+		width: 100%;
+		height: 100%;
+		/*border: 1px solid rgba(255,255,255,0.5);*/
+		box-shadow: 0 0 10px rgba(255,255,255,0.5);
+		/*background: linear-gradient(top,#fb4b4b,#3f3ffb);*/
+		/*background: -moz-linear-gradient(top,#fb4b4b,#3f3ffb);*/
+		/*background: -webkit-linear-gradient(top,#fb4b4b,#3f3ffb);*/
+        background: linear-gradient(top,#777979,#222425);
+		background: -moz-linear-gradient(top,#777979,#222425);
+		background: -webkit-linear-gradient(top,#777979,#222425);
+	}
+	.music{
+		width: 50%;
+		height: 100%;
+		border-right: 1px solid rgba(255,255,255,0.5);
+		box-sizing: border-box;
+		float: left;
+	}
+	.photo{
+		width: 100%;
+	}
+	/* .photo_pic{
+	position: relative;
+	width: 250px;
+	height: 250px;
+	margin: 75px auto 0;
+	border-radius: 50%;
+	background: url(img/img_no.jpg);
+	box-shadow: 0 0 2px #666, 0 0 10px #666;
+	} */
+	.choose{
+		height:150px;
+	}
+	.choose_obj{
+		width: 50%;
+		float: left;
+		text-align: center;
+		color: #fff
+	}
+
+	.icon{
+		margin-top: 40px;
+		height: 50px;
+		font-size:50px;
+		line-height: 50px;
+		font-family: "iconfont";
+		cursor: pointer;
+		text-shadow: 2px 2px 0px #666;
+	}
+	.icon.yellow+span{
+		color: aquamarine;
+	}
+	.icon.pink+span{
+		color: #f7759f;
+	}
+	.choose_obj span{
+		display: block;
+		height: 30px;
+		line-height: 30px;
+		font-family: "微软雅黑";
+		font-size: 14px;
+	}
+	/* .cd{
+		width: 10px;
+		height: 10px;
+		position: absolute;
+		top:50%;
+		left: 50%;
+		margin-top: -15px;
+		margin-left: -15px;
+		background: #666;
+		border: 10px solid #fff;
+		box-shadow: 0 0 1px #000;
+		border-radius: 50%;
+	} */
+
+	.progress{
+		font-family: "iconfont"
+	}
+	.lyric{
+		width: 50%;
+		height: 100%;
+		float: right;
+	}
+	time{
+		font-size: 12px;
+		width: 49px;
+		text-align: center;
+		color: #fff;
+		height: 50px;
+		line-height: 50px;
+		float: left;
+        margin-top: 165px;
+	}
+	.progress_bar{
+		position: relative;
+		width: 85%;
+		height: 2px;
+		margin-top: 190px;
+		background-color: #fff;
+		float: left;
+		cursor: pointer;
+	}
+	.progress_cube{
+		position: absolute;
+		left: 0;
+		top: -5px;
+		width: 4px;
+		height: 4px;
+		background-color: #000;
+		border:5px solid #fff;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+	.progress_obj{
+
+		line-height: 30px;
+		color:#ffffff;
+        margin-top: 35px;
+	}
+	.ctrl_btn{
+		width: 359px;
+		float: left;
+	}
+	
+	.ctrl_btn .btn{
+		width: 33.3%;
+		float: left;
+		text-align: center;
+		cursor: pointer;
+	}
+	.play_btn{
+		font-size: 24px;
+	}
+	.ctrl_info{
+		width: 300px;
+		float: left;
+	}
+	.vol{
+		padding-left: 50%;
+		width: 100px;
+		height: 100%;
+		float: left;
+
+	}
+	.song{
+		width: 300px;
+		height: 500px;
+	}
+	.vol_bar{
+		position: relative;
+		width: 70px;
+		float: right;
+		height: 2px;
+		background-color: #fff;
+		margin-top: 13px;
+	}
+	.vol_cube{
+		position: absolute;
+		left: 0;
+		top: -4px;
+		width: 3px;
+		height: 3px;
+		background-color: #000;
+		border:4px solid #fff;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+	.list{
+		width: 20px;
+		height: 100%;
+		float: right;
+		text-align: center;
+	}
+	.lyric_tit{
+		height: 50px;
+		line-height: 50px;
+		color: #fff;
+		text-align: center;
+		font-weight: 700;
+		margin-top: 30px;
+        color: darkgrey;
+        color: aquamarine;
+	}
+	.lyric_con{
+		position: relative;
+		line-height: 40px;
+		color: #fff;
+		font-size: 14px;
+		padding: 0px 50px ;
+		text-align: center;
+		height: 450px;
+		overflow: hidden;
+		margin-top: 20px;		
+	}
+	#lyric_txt{
+		position: absolute;
+		left: 0;
+		top:0;
+		width: 100%;
+		height: 100%;
+	}
+	.lyric_con p.played{
+		color: aquamarine;
+	}
+	.lyric_con p.active{
+		color: aquamarine;
+		font-size: 20px;
+		font-weight: 700;
+	}
+	.audio{
+		display: none;
+	}
+	#list{
+		position: relative;
+		cursor: pointer;
+	}
+	#list_con{
+		position: absolute;
+		bottom: 130px;
+		right: -180px;
+		width: 150px;
+		height: 100px;
+		color: #666;
+		padding: 10px 0;
+		border-radius: 5px;
+		background: rgba(255,255,255,.8);
+		font-family: "微软雅黑";
+		font-size: 14px;
+		cursor: pointer;
+		display: none;
+	}
+    p{
+        color:darkgrey;
+    }
+	</style>
+
+</head>
+<body>
+	<div class="container" id="container">
+		<div class="music">
+			<div class="photo">
+				<ul class="song">
+
+				</ul>
+				 <div class="photo_pic" id="photo_pic"><div class="cd"></div></div> 
+				<div class="choose" style="display: none">
+					<div class="choose_obj choose_like" >
+						<div class="icon" id="icon1">
+							&#xe607;
+						</div>
+<!--						<span>喜欢</span>-->
+					</div>
+					<div class="choose_obj choose_share">
+						<div class="icon" id="icon2">
+							&#xe675;
+						</div>
+<!--						<span>收藏</span>-->
+					</div>
+				</div>
+			</div>
+
+			<div class="progress">
+
+				<div class="progress_obj clear">
+					<time class="">00:00</time>
+					<div class="progress_bar" id="progress_bar"><div class="progress_cube" id="progress_cube"></div></div>
+                    <time class="">00:00</time>
+				</div>
+				<div class="progress_obj clear">
+					<div class="ctrl_btn">
+						<div id="prev_btn" class="prev_btn btn">&#xe60d;</div>
+						<div id="play_btn" class="play_btn btn">&#xe60e;</div>
+						<div id="next_btn" class="next_btn btn">&#xe60b;</div>
+					</div>
+					<div class="ctrl_info">
+						<div class="vol">&#xe979;<div class="vol_bar" id="vol_bar"><div class="vol_cube" id="vol_cube"></div></div></div>
+						<div class="list" id="list">&#xe908;<div id="list_con"><p>fffffffff</p><p>fffffffff</p><p>fffffffff</p></div></div>
+					</div>
+					<audio src="music/jq22.com.mp3"></audio>
+				</div>
+			</div>
+		</div>
+		<div class="lyric">
+			<div class="lyric_tit" id="lyric_tit"></div>
+			<div class="lyric_con" id="lyric_con"><div id="lyric_txt"></div></div>
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+//data
+var lyric=[{
+    'name':"情歌（live）",
+	 'img':'http://p2.music.126.net/E0ynLFbtqou5cu1iJrvUEQ==/109951163081327547.jpg?param=130y130',
+	 'audio_src':'music/jq22.com.mp3',
+	'content':"00:00.92]作词：陈粒\n[00:01.21]作曲：五冠\n[00:02.17]原唱：梁静茹\n[00:03.89]编曲：刘卓@维伴音乐\n[00:04.85]时光是库珀泪一滴滴被反锁\n[00:05.57]情书再不朽也磨成沙漏\n[00:06.42]青春的_上游白云飞走苍狗与海鸥\n[00:08.15]闪过的念头潺潺地溜走\n[00:10.00]命运好幽默让爱的人都沉默\n[00:12.41]一整个宇宙换一 颗红豆\n[00:14.01]青春的上游白云飞走苍狗与海鸥\n[00:16.56]潺潺地溜走幸福的念头\n[00:18.57]慢动作缱绻胶卷\n[00:20.49]重播默片定格一瞬间\n[00:22.54]我们在告别的演唱会\n[00:24.73]说好不再见 别太快冰释前嫌\n[00:26.78]你写给我我的第一首歌 彼此无挂也无牵\n[00:28.49]我和你十指紧扣默写前奏 要不然凭何怀缅\n[00:31.26]可是那然后呢 还好我有我这一首情歌\n[00:34.22]我和你十指紧扣默写前奏\n[00:37.93]可是那然后呢 还好我有我这一首情歌\n[00:40.78]轻轻地轻轻哼着哭着笑着\n[00:42.41]我的天长地久\n[00:44.47]陪我唱歌清唱你的情歌\n[00:45.10]鈈得短短副歌心还热着\n[00:46.96]也该告一段落 泪滴水成冰\n[00:47.42]还好我有我下一-首情歌\n[00:48.99]生命宛如静静的相拥的河\n[00:49.69]永远天长地久 残缺的悬念\n[00:50.00]音响总监:鈔刚 乐队总监:刘卓@维伴音乐\n[00:50.20]键盘:刘卓@维伴音乐李海郡@维伴音乐\n[00:50.51]吉他:金天@维伴音乐/崔万平@维伴音乐\n[00:50.60]贝斯:李九君@维伴音乐\n[00:50.76]鼓:卢炜@维伴音乐 \n[00:50.99]电脑工程:郎梓朔@维伴音乐 \n[00:51.00]混音:佟尚泽@维伴音乐\n[00:52.00]泺编辑:石行@维伴音乐"
+}]
+
+
+
+
+
+class Content {
+    constructor() {
+
+        this.url = ' https://apis.netstart.cn/music/personalized/newsong'
+        this.$song = $('.song')
+        this.$lrclist = $('.lrclist')
+        this.$audio = $('.audio-play')
+        this.title = null
+        this.init()
+    }
+    init() {
+        this.getData(this.url)
+    }
+    // this.render()
+    getData(url) {
+            let self = this
+            $.ajax({
+
+                url,
+                type: 'get',
+                success: function(data) {
+                    // console.log(result);
+                    let { result } = data
+                    this.result = result
+                    self.creatList(this.result)
+                    self.myClick()
+
+                }
+            })
+        }
+        // 创建歌曲列表项
+    creatList(arr) {
+        for (let i = 0; i < arr.length; i++) {
+            let { id, name } = arr[i]
+            console.log(id, name);
+            $(`<li>${name}</li>`).addClass('li1').attr('data-id', id).appendTo('.song')
+        }
+    }
+    // 给每一首歌绑定点击事件
+    myClick() {
+        // console.log(this.$ul1);
+        let slef = this
+        this.$song.on('click', 'li', (e) => {
+            console.log(123);
+            let el = e.target
+            console.log(el);
+            let id = el.dataset.id
+            console.log(id)
+            $.ajax({
+                url: `https://apis.netstart.cn/music/lyric?id=${id}`,
+                type: 'get',
+                success: function(data) {
+                    let { lrc: { lyric } } = data
+                    // console.log(lyric)
+                    // console.log(el.textContent);
+
+                    // 获取歌名
+                    this.title = el.textContent
+                    $('.title').text(this.title)
+                        // 正则表达获取歌词
+                    let lrc1 = []
+                    let lrcReg = /^\[(\d+):(\d+\.\d+)\]([\S ]*)$/gm
+                    lyric.replace(lrcReg, function(match, $2, $3, $4) {
+
+                        // console.log($2, $3, $4);
+                        lrc1.push({
+                            time: $2 * 60 + parseFloat($3),
+                            lrc: $4
+                        })
+                        return match
+                    })
+                    console.log(lrc1);
+
+                    slef.creatLrc(lrc1)
+
+                }
+
+            })
+            let url2 = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+            this.$audio.attr('src', url2)
+        })
+    }
+
+    // 创建歌词列表
+    creatLrc(arr) {
+
+        $('.smallbox .lrclist')[0].textContent = ''
+        for (let i = 0; i < arr.length; i++) {
+            let { time, lrc } = arr[i]
+            $(`<li>${lrc}</li>`).attr('data-time', time).appendTo('.lrclist')
+
+        }
+    }
+}
+
+
+	window.onload=function()
+	{
+		let play_btn=document.getElementById("play_btn");
+		let prev_btn=document.getElementById("prev_btn");
+		let next_btn=document.getElementById("next_btn");
+		let audio=document.getElementsByTagName("audio")[0];
+		let initTime=document.getElementsByTagName("time")[0];
+		let time=document.getElementsByTagName("time")[1];
+		let progress_bar=document.getElementById("progress_bar");
+		let progress_cube=document.getElementById("progress_cube");
+		let vol_bar=document.getElementById("vol_bar");
+		let vol_cube=document.getElementById("vol_cube");
+		let lyric_con=document.getElementById("lyric_con");
+		let lyric_txt=document.getElementById("lyric_txt");
+		let photo_pic=document.getElementById("photo_pic");
+		let icon1=document.getElementById("icon1");
+		let icon2=document.getElementById("icon2");
+		let lyric_tit=document.getElementById("lyric_tit");  
+		let list_con=document.getElementById("list_con");
+		let list_item=list_con.getElementsByTagName("p");
+		let songIndex=0;
+		let container=document.getElementById("container");
+		let obj;		
+		function config()
+		{
+			this.play_mark=true;
+			this.duration=audio.duration;
+			this.play_btn="&#xe60e;";
+			this.vol=audio.volume;
+			this.timer=null;
+			this.rotateSum=0;
+			this.icon1=icon1.innerHTML;
+			this.icon2=icon2.innerHTML;
+			this.icon1_co=icon1.style.color;
+			this.endplay_btn="&#xe60c;";
+			this.endicon1=icon1.innerHTML;
+			this.endicon2="&#xe674;";
+		}
+		
+		obj= new config();
+		//列表控制
+		
+		var allSong="";
+		for(var song=0;song<lyric.length;song++)
+		{
+			allSong+="<p>"+lyric[song].name+"</p>"
+		}
+		list_con.innerHTML=allSong;
+		list_con.style.height=lyric.length*30+"px";
+		for(var listIndex=0;listIndex<list_item.length;listIndex++)
+			{
+				list_item[listIndex].index=listIndex;
+				list_item[listIndex].onclick=function(ev)
+				{
+					var ev=ev||window.event;
+					ev.stopPropagation();
+					songIndex=this.index;
+					change_music();
+				}
+			}
+		list_con.style.display="none";
+		list.onclick=function()
+		{
+			if(list_con.style.display=="none")
+			{
+				list_con.style.display="block";
+			}
+			else{
+				list_con.style.display="none";
+			}
+		}
+		//下一首
+		next_btn.onclick=function(){
+			songIndex++;
+			change_music();
+		}
+		prev_btn.onclick=function(){
+			songIndex--;
+			change_music();
+		}
+		function change_music()
+		{
+			clearInterval(obj.timer);
+			if(songIndex>=lyric.length)
+				{songIndex=0}
+			else if(songIndex<0)
+				{songIndex=lyric.length}
+			obj= new config();		
+			iconinit();
+			audioInit();
+			playedTime();
+			lyric_ctrl();
+		}
+		//初始化总时长、音量等
+		function audioInit()
+		{
+			time.innerHTML=format(audio.duration);
+			audio.volume=0.5;
+			play_btn.innerHTML=obj.play_btn;
+			vol_cube.style.left=audio.volume*vol_bar.offsetWidth+"px";
+			lyric_tit.innerText=lyric[songIndex].name;
+			photo_pic.style.background="url("+lyric[songIndex].img+")";
+			audio.src=lyric[songIndex].audio_src;			
+			progress_cube.style.left=0;
+		}
+		audioInit();
+		//播放时间
+		audio.addEventListener("timeupdate",function()
+		{
+			playedTime();
+		})
+		function playedTime(){
+			if(audio.currentTime==audio.duration)
+			{
+				next_btn.onclick();
+				play_btn.onclick();
+			}
+			var n=audio.currentTime/audio.duration;
+			progress_cube.style.left=n*progress_bar.offsetWidth+"px";
+			initTime.innerHTML=format(audio.currentTime);
+			var id_num=parseInt(audio.currentTime);
+			var lyric_p=document.getElementsByTagName("p");
+			for(var i=0;i<lyric_p.length;i++)
+				{
+					lyric_p[i].index=i;
+				}
+			if(document.getElementById("lyric"+id_num))
+			{				
+				var obj=document.getElementById("lyric"+id_num);
+				for(var i=0;i<obj.index;i++)
+				{
+					lyric_p[i].className="played";
+				}
+				for(var j=obj.index;j<lyric_p.length;j++)
+				{
+					lyric_p[j].className="";
+				}
+				obj.className="aquamarine active";
+				lyric_txt.style.top=lyric_con.offsetHeight/2-obj.offsetTop+"px";			
+			}
+		}
+		function format(time)
+		{
+			var time=parseInt(time);
+			var m=parseInt(time/60);
+			var s=parseInt(time%60);
+			m=zero(m);
+			s=zero(s);
+			function zero(num)
+			{
+				if(num<10)
+				{
+					num="0"+num;
+				}
+				return num;
+			}
+			return m+":"+s;
+		}
+		//拖拽进度条
+		progress_cube.onmousedown=function(ev)
+		{
+			var ev=ev||window.event;
+			var initX=ev.clientX-this.offsetLeft;
+			this.onmousemove=function(ev)
+			{
+				var ev=ev||window.event;
+				var x=ev.clientX-initX;
+				if(x<0){x=0}
+					if(x>progress_bar.offsetWidth-14){x=progress_bar.offsetWidth-14}
+				play_ctrl(x);
+			}
+			document.onmouseup=function()
+			{
+				document.onmousemove=null;
+				progress_cube.onmousemove=null;
+			}
+		}
+		function play_ctrl(x){
+				var timego=x/progress_bar.offsetWidth*audio.duration;
+				progress_cube.style.left=x+"px";
+				audio.currentTime=timego;
+				playedTime();
+		}
+		//点击进度条位置
+		progress_bar.onclick=function(ev)
+		{
+			var ev=ev||window.event;
+			var dis=ev.clientX-(container.offsetLeft+progress_bar.offsetLeft)-7;
+			progress_cube.style.left=dis+"px";
+			play_ctrl(dis);
+		}/**/
+		//拖动音量键
+		vol_cube.onmousedown=function(ev)
+		{
+			var ev=ev||window.event;
+			var initX=ev.clientX-vol_cube.offsetLeft;
+			this.onmousemove=function(ev)
+			{
+				var ev=ev||window.event;
+				var x=ev.clientX-initX;
+				if(x<0){x=0}
+					if(x>vol_bar.offsetWidth-11){x=vol_bar.offsetWidth-11}
+				var volresult=x/vol_bar.offsetWidth;
+				this.style.left=x+"px";
+				audio.volume=volresult;
+			}
+			document.onmouseup=function()
+			{
+				document.onmousemove=null;
+				vol_cube.onmousemove=null;
+			}
+		}		
+		//点击播放
+		play_btn.onclick=function()
+		{
+			clearInterval(obj.timer);
+			if(obj.play_mark)
+			{
+				this.innerHTML=obj.endplay_btn;
+				audio.play();
+				obj.timer=setInterval(function()
+				{	obj.rotateSum=obj.rotateSum+1;
+					photo_pic.style.transform="rotate("+obj.rotateSum+"deg)";
+				},30)
+			}
+			else{
+				this.innerHTML=obj.play_btn;
+				audio.pause();
+			}
+			obj.play_mark=!obj.play_mark;
+		}
+		//歌词处理
+		function lyric_ctrl()
+		{
+			var lyricObj=lyric[songIndex].content;
+			var temp=lyricObj.split("[");
+			var html="";
+			for(var i=0;i<temp.length;i++)
+			{
+				var arr=temp[i].split("]");
+				var text=(arr[1]);
+				var time=arr[0].split(",");
+				var temp2=time[0].split(".");
+				var ms=temp2[1];//毫秒
+				var temp3=temp2[0].split(":");			
+				var s=temp3[1];//秒
+				var m=temp3[0];//分
+				var s_sum=parseInt(m*60)+parseInt(s);
+				if(text)
+				{
+					html+="<p id='lyric"+s_sum+"'>"+text+"</p>";
+				}	
+			}
+			lyric_txt.innerHTML=html;
+		}
+		lyric_ctrl();
+		function iconinit(){
+			icon1.className="icon";
+			icon1.innerHTML=obj.icon1;
+			icon1.style.color="#fff";
+			icon2.className="icon";
+			icon2.style.color="#fff";
+		}
+		//喜欢 收藏
+		icon2.onclick=function()
+		{
+			if(this.innerHTML==obj.icon2)
+			{
+				this.innerHTML=obj.endicon2;
+				this.style.color="aquamarine";
+				this.className="icon yellow";
+			}
+			else{ 
+				this.innerHTML=obj.icon2;
+				this.style.color="#fff";	
+				this.className="icon";			
+			}
+		}
+		icon1.onclick=function()
+		{
+			if(this.style.color==obj.icon1_co)
+			{
+				this.innerHTML=obj.endicon1;
+				this.style.color="#f7759f";
+				this.className="icon pink";
+			}
+			else{ 
+				this.innerHTML=obj.icon1;
+				this.style.color=obj.icon1_co;	
+				this.className="icon";			
+			}
+		}
+	}
+</script>

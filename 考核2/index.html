@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 700px;
+            height: 200px;
+            background-color: rgb(175, 174, 174);
+            margin: 50px 50px;
+        }
+
+        
+
+        .box>div {
+            width: 200px;
+            height: 200px;
+            background-color: rgb(236, 229, 229);
+            color: grey;
+            padding: 5px;
+            box-sizing: border-box;
+            font-size: 20px;
+            overflow-x: scroll;
+            float: left;
+            margin-left: 2px;
+        }
+
+        .box>div>div {
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            margin-left: 15px;
+            margin-top: 15px;
+
+        }
+
+        .box>div div{
+            position: relative;
+        }
+
+        .box>div div span {
+            margin-left: 60px;
+        }
+
+         .box>div div:hover {
+            color: thistle;
+        }
+
+        .city {
+            left: 251px;
+            top: 50px;
+            width: 200px;
+            height: 200px;
+            background-color: rgb(236, 229, 229);
+            color: grey;
+            padding: 5px;
+            box-sizing: border-box;
+            font-size: 20px;
+            position: absolute;
+        }
+
+        .city>div {
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            margin-left: 15px;
+            margin-top: 15px;
+        }
+
+        .area {
+            left: 450px;
+            top: 50px;
+            width: 200px;
+            height: 200px;
+            background-color: rgb(236, 229, 229);
+            color: grey;
+            padding: 5px;
+            box-sizing: border-box;
+            font-size: 1px;
+            position: absolute;
+        }
+
+        .area>div {
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            margin-left: 15px;
+            margin-top: 15px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="province">
+
+        </div>
+        <div class="city">
+
+        </div>
+        <div class="area">
+
+        </div>
+    </div>
+    <script src="./ind.js/jquery-3.6.0.min.js"></script>
+    <script>
+        function ajax(option) {
+            option = Object.assign({
+                timeout: 5000,
+                type: 'GET'
+            }, option)
+
+            var data = option.data  // {name: 123, age: 5} => 'name=123&age=5'
+
+            var dataStr = ''
+
+            for (var key in data) {
+                dataStr += key + '=' + data[key] + '&'
+            }
+            dataStr = dataStr.substring(0, dataStr.length - 1)
+
+            var xhr = new XMLHttpRequest()
+
+            var timer = setTimeout(function () {
+                xhr.abort()
+            }, option.timeout)
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.status == 200 && xhr.readyState == 4) {
+
+                    clearTimeout(timer)
+                    option.success && option.success(xhr.responseText)
+                }
+            }
+            xhr.open(option.type, option.url)
+
+            if (option.type === 'POST') {
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            }
+            xhr.send(dataStr)
+        }
+
+        ajax({
+            type: 'GET',
+            url: "./prov/prov-county.json",
+            success: function (data) {
+                data = JSON.parse(data)
+                var province = [];
+                var city = [];
+                var area = [];
+                
+                data.forEach(function (item, index) {
+                    var arr = item.split(":")
+                    // console.log(index);
+                    // console.log(arr[0].slice(0,2));
+                    if (arr[0].length == 2) {
+                        province.push({ n: arr[1], id: arr[0] })
+                    }
+                    else if (arr[0].length == 4) {
+                        city.push({ n: arr[1], id: arr[0] })
+                    } else {
+                        area.push({ n: arr[1], id: arr[0] })
+                    }
+                })
+                console.log(province);
+                console.log(city);
+                console.log(area);
+
+            
+                province.forEach(function (item) {
+                    $('<div>').appendTo($('.province')).text(item.n).attr('id', item.id).addClass('aba')
+
+                })
+                $('.province').on('click','.aba',function () {
+                    console.log(this);
+                    var self = this
+                    //empty()是移除改标签所有内容
+                    $('.city').empty()
+                    $('.area').empty()
+                    //attr()是用来获取或设置该元素属性值
+                    city.forEach(function (item) {
+                        if ($(self).attr('id') ==parseInt(item.id / 100) ) {
+                            console.log(2);
+                            $('<div>').appendTo($('.city')).text(item.n).attr('id', item.id).addClass('mycity')
+                        }
+                    })
+                })
+                $('.city').on('click','.mycity',function () {
+                    console.log(this);
+                    var self = this
+                    $('.area').empty()
+                    area.forEach(function (item) {
+                        if ($(self).attr('id') ==parseInt(item.id / 100) ) {
+                            console.log(2);
+                            $('<div>').appendTo($('.area')).text(item.n).attr('id', item.id)
+                        }
+
+
+                    })
+                })
+               
+            }
+        })
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

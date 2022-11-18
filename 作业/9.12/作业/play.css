@@ -1,0 +1,100 @@
+.smallbox {
+    position: absolute;
+    left: 300px;
+    top: 35px;
+    width: 500px;
+    height: 500px;
+    background-image: url(./02.jpg);
+    background-repeat: no-repeat;
+}
+
+.btn-bar {
+    position: absolute;
+    /* left: 300px; */
+    width: 800px;
+    height: 58px;
+    background-color: grey;
+}
+
+.provue {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url(./img/provue.svg);
+    background-repeat: no-repeat;
+    /* background-color: red; */
+}
+
+.play {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url(./img/play.svg);
+    background-repeat: no-repeat;
+}
+
+.play2 {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+}
+
+.next {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url(./img/next.svg);
+    background-repeat: no-repeat;
+}
+
+.volume {
+    position: absolute;
+    top: 9px;
+    right: 145px;
+    display: inline-block;
+    width: 22px;
+    height: 30px;
+    background-image: url(./img/volumejia.svg);
+    background-repeat: no-repeat;
+}
+
+.volume-prograss {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    display: inline-block;
+    width: 129px;
+    height: 16px;
+}
+
+.range {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    opacity: 0;
+}
+
+.prograss-bar {
+    position: absolute;
+    left: 139px;
+    bottom: 30px;
+    width: 450px;
+    height: 15px;
+}
+
+.prograss-range {
+    position: absolute;
+    left: 10px;
+    bottom: 30px;
+    width: 450px;
+    height: 15px;
+    opacity: 0;
+}
+
+.play-time {
+    position: absolute;
+    display: inline-block;
+    left: 139px;
+    bottom: 10px;
+    font-size: 12px;
+}

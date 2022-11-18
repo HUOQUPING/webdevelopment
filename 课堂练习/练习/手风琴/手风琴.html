@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 1000%;
+            height: 300px;
+            margin: 10px auto;
+        }
+
+        .box .box-conter {
+            width: 1200px;
+            height: 300px;
+            border: 1px solid red;
+        }
+
+        .box .box-conter .conimg li {
+            width:200px ;
+            height: 100%;
+            float: left;
+            list-style: none;
+        }
+        .box .box-conter .conimg li img{
+            width: 100%;
+            height: 300px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="box-conter">
+            <ul class="conimg">
+                <li><img src="./img/1.jpg" alt=""></li>
+                <li><img src="./img/2.jpg" alt=""></li>
+                <li><img src="./img/3.jpg" alt=""></li>
+                <li><img src="./img/4.jpg" alt=""></li>
+                <li><img src="./img/5.jpg" alt=""></li>
+                <li><img src="./img/6.jpg" alt=""></li>
+            </ul>
+        </div>
+    </div>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script>
+        $(".box").mouseenter(function(){
+            $("li").animate({
+                width:700,
+                
+            }).siblings().animate({
+                width:300,
+            })
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>

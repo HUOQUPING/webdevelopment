@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table border="1" bordercolor="#cccccc" rules="all">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>科目</th>
+                <th>状态</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input type="checkbox" checked=>llll</td>
+            </tr>
+        </tbody>
+    </table>
+    <button>添加</button>
+    <button>删除</button>
+    <!-- (ES6数组对象扩展方法)
+作业：使用 ES6 实现 todos列表数据操作
+要求:
+创建一个方法用来向todos中添加一条新的todo
+创建一个方法用来向todos中删除指定id的todo
+创建一个方法用来向todos中切换一条指定id todo的 completed值 true -> false / false -> true
+所有功能的实现都不允许修改原数组 metaTodos
+数据解构
+"use strict";
+const metaTodos =  [
+    {id: 1, text: '学习es6', completed: false},
+    {id: 2, text: '学习vue', completed: true},
+    {id: 3, text: '学习react', completed: false},
+    {id: 4, text: '学习js', completed: false},
+]
+Object.freeze(metaTodos)
+let todos = metaTodos -->
+
+    <script>
+        "use strict";
+        const metaTodos = [
+            { id: 1, text: '学习es6', completed: false },
+            { id: 2, text: '学习vue', completed: true },
+            { id: 3, text: '学习react', completed: false },
+            { id: 4, text: '学习js', completed: false },
+        ]
+        Object.freeze(metaTodos)
+        let todos = metaTodos
+
+        let tbody = document.querySelector("tbody")
+         tbody.innerHTML=metaTodos.map(item=>`
+         <tr>
+             <td>${item.id}</td>
+             <td>${item.text}</td>
+             <td><input type="checkbox" checked=${item.completed}></td>
+             </tr>
+         `).join("");
+        // 创建一个方法用来向todos中添加一条新的todo    
+        let addTodos = (obj, id) => todos = obj.filter(item => {
+            let { id: newId } = item
+            return id == newId ? true : false
+        })
+        addTodos(metaTodos, 3)
+        console.log(todos);
+        //  let newArr=filter(item=>item.id.includes())
+        // 创建一个方法用来向todos中删除指定id的todo 
+        let removeTods = (obj, id) => todos = obj.filter(item => {
+            let { id: newId } = item
+            return id == newId ? false : true
+        })
+        removeTods(metaTodos, 3)
+        console.log(todos);
+        // 创建一个方法用来向todos中切换一条指定id todo的 completed值 true -> false / false -> true
+        let tgCompleted = (obj, id) => todos = obj.map(item => {
+            let { id: newId, completed: com } = item
+            id == newId ? item.completed = !com : item.completed = com
+            return item
+        })
+        tgCompleted(todos, 3)
+        console.log(todos);
+
+    </script>
+
+</body>
+
+</html>

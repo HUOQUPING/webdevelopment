@@ -1,0 +1,213 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-family: Yanone Kaffeesatz, sans-serif;
+    /* box-sizing: border-box; */
+}
+
+@font-face {
+    font-family: 'Yanone Kaffeesatz';
+    src: url(../fonts/YanoneKaffeesatz-Bold-5.ttf);
+}
+
+body {
+    min-height: 100vh;
+    /* padding: 50px 0; */
+    background-image: linear-gradient(90deg, pink, rgb(252, 167, 97));
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    position: relative;
+    width: 500px;
+    /* height: 500px; */
+    background-color: white;
+    padding: 50px 0;
+    user-select: none;
+    border-radius: 20px;
+}
+
+.todo-list .todo-item .checkbox .i-active {
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    border: 2px solid black;
+}
+
+.todo-list .todo-item .checkbox .i-completed {
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    /* color: white;
+    font-family:'Times New Roman', Times, serif;
+    font-weight: bolder; */
+    background: url(../images/v.jpg) no-repeat;
+    /* background-size: cover; */
+}
+
+.header {
+    display: flex;
+    width: 200px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.header .logo {
+    display: inline-block;
+    width: 80px;
+}
+
+.header .logo img {
+    width: 100%;
+}
+
+.header .title {
+    display: block;
+    width: 60px;
+    height: 30px;
+    padding: 5px 15px;
+    margin-left: 5px;
+    transform: rotate(3deg);
+    font-size: 21px;
+    background-color: rgb(250, 75, 52);
+    border-radius: 20% 5% 20% 5%/5% 20% 25% 20%;
+
+    color: white;
+}
+
+.form {
+    margin-top: 25px;
+}
+
+.form .title {
+    text-align: center;
+    font-family: Yanone Kaffeesatz, sans-serif;
+    font-size: 22px;
+
+}
+
+.form .input-container {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.form .input-container .input {
+    width: 300px;
+    border-bottom: 2px dashed red;
+}
+
+.form .input-container .input input {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: none;
+
+}
+
+.form .input-container button {
+    position: relative;
+    transform: rotate(4deg);
+    border-radius: 6px;
+    transition: transform .25s cubic-bezier(.175, .885, .32, 1.275);
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.form .input-container .down::before{
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "";
+    width: 98%;
+    height: 98%;
+    transform: scaleY(1.05);
+    border: 1px solid #494a4b;
+    border-radius: inherit;
+    transform-origin: top;
+    background-image: url(../images/bottomLine.png);
+    background-color: #fe7345;
+    transition: transform .25s cubic-bezier(.175,.885,.32,1.275);
+}
+.form .input-container button span{
+    position: relative;
+    display: block;
+    font-size: 16.5px;
+    padding: 6px 14px;
+    border: 2px solid #494a4b;
+    border-radius: inherit;
+    background-color: #fff;
+}
+#app .todo-list {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 80px;
+}
+
+#app .todo-list .todo-item {
+    position: relative;
+    margin: 10px 0;
+    display: flex;
+
+    width: calc(100% - 20px) ;
+    padding: 10px;
+    border-radius: 5px;
+
+}
+
+#app .todo-list .todo-item p{
+    margin-left: 15px;
+}
+
+#app .todo-list .todo-item .delete {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #666;
+    text-align: center;
+    line-height: 40px;
+}
+
+#app .todo-list .todo-item .delete:hover {
+    color: #000;
+    font-weight: bolder;
+}
+
+#app footer {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+}
+
+#app footer .empty {
+    text-align: center;
+}
+
+#app footer .option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    font-size: 12px;
+
+}
+/* #app footer .option */
+#app footer .option .choose {
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: orange;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <input type="text" value="" id="height"><button>身高</button>
+    <br>
+    <input type="text" value="" id="weight"><button>体重</button> -->
+    <script>
+        // // 实验一：创建两个变量分别存入身高和体重，根据公式（身高-108）*2=体重，
+        // // 可以有10斤左右的浮动。来观察测试者体重是否合适?
+        // var height = document.getElementById('height').value;
+        // var weight = document.getElementById('weight').value;
+        // // 根据公式和输入的身高计算标准体重
+        var height=prompt("请输入身高")
+        var weight=prompt("请输入体重");
+        var sWeight = (height - 108) * 2;
+        // 等于标准体重时
+        if (weight == sWeight) {
+            alert('身材非常完美,以后可以随便吃喝了');
+        }
+        //大于标准体重时
+        else if (weight > sWeight) {
+            // 超过标准体重10斤时
+            if (weight > sWeight + 10) {
+                alert('真的太胖，需要减肥了');
+            } else {
+                alert('不用担心，微胖而已');
+            }
+        } else {
+            //低于标准体重10以下时
+            if (weight < sWeight - 10) {
+                alert('实在是太瘦，平时多吃些吧');
+            } else {
+                alert('不用担心，偏瘦而已');
+            }
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script src="./axios.min.js"></script>
+</head>
+<style>
+    .cinema-seats{
+        position: relative;
+    }
+    .floor{
+        position: absolute;
+        top: -10px;
+        left: -2px;
+        border-radius:999px ;
+        padding-top: 20px;
+        width: 25px;
+        background-color: rgb(88, 87, 87);
+    }
+
+    .floor div{
+        margin-bottom: 20px;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div>
+        <header class="header"></header>
+        <div class="cinema-wrap">
+            <h3></h3>
+            <div class="cinema-seats"></div>
+            <div class="seats-legends"></div>
+
+            <div class="ticket-wrap"></div>
+        </div>
+    </div>
+    <script>
+        //创建类
+        class Cinema {
+            constructor() {
+                //获取页面dom值
+                this.$header = $(".header")
+                this.$title = $(".cinema-wrap h3")
+                this.$seats = $(".cinema-seats")
+                this.$seatsLegends = $(".seats-legends")
+                this.$ticketWrap = $(".ticket-wrap")
+                // 电影院名
+                this.cinemaName = null
+                //几号厅
+                this.hallName = null
+                // 区域id
+                this.regionId = null
+                // 电影名
+                this.moveName = null
+                //  电影票价格          
+                this.price = 0
+                // 当前场次
+                this.currentRelated = null
+
+                this.seatType=null
+
+                this.seatMap = null
+                //用户选择的电影座位
+                this.ticketArr = []
+
+
+
+
+            }
+            init() {
+                this.getDataFromServer().then(() => {
+                    //渲染页面
+                    this.render()
+                    // 给座位绑定点击事件
+                    this.selectSeat()
+
+                })
+            }
+
+            async getDataFromServer() {
+                //  let { data: { data } } = await axios.get('https://apis.netstart.cn/maoyan/cinema/seat.json')
+                let { data: { data } } = await axios.get("./data.json")
+                console.log(data);
+
+                 // 电影院名
+                 this.cinemaName = data.cinema.cinemaName
+                //几号厅
+                this.hallName = data .hall.hallName
+                // 区域id
+                this.regionId = data.seat.regions[0].regionId
+                // 电影名
+                this.moveName = data.movie.movieName
+                //  电影票价格          
+                this.price = data.price[this.regionId].seatsPriceDetail["1"].originPrice
+                // 当前场次
+                this.currentRelated = data.relatedShow[0]
+
+                this.seatType=data.seat.image.seatLegends
+                // 行
+                this.seatMap = data.seat.regions[0].rows
+                console.log(this);
+            }
+            render(){
+                this.$header.text(this.cinemaName)
+                this.$title.text(this.hallName)
+
+                this.createSeats()
+                this.createLegend()
+            }
+            createSeats(){
+                let $floor=$("<div class='floor'>")
+                    for(let i=0;i<seatMap.length;i++){
+                        let {rowNum,seats,rowId}=this.seatMap[i]
+                        $floor.append(`<div>${rowNum}</div>`)
+
+                        let $row=$("<div class='row'>")
+
+                            for(let j=0;j<seats.length;j++){
+                                let { columnId, rowId, seatStatus } = seats[j]
+                                   $("<div>").addClass
+
+                            }
+
+                    }
+
+            }
+
+        }
+        new Cinema
+
+    </script>
+</body>
+
+</html>

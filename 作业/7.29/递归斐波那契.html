@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 使用递归求下标为n的斐波那契数 -->
+    <script>
+        // 斐波那契数列就是最前面两个数字分别是0，1 之
+        // 后每一个斐波那契数字是之前两个数字的之和。即 0,1,1,2,3,5,8,13,21,34,55,89…
+        //要求：创建 fibonacci 函数接收 n 作为参数，n 表示需要获取的斐波那契数的下标数
+        // 调用 fibonacci 函数传入下标返回斐波那契数列中指定下标的数字
+        // 使用递归实现该功能
+        var fibonacciArr = [0, 1]
+        var fibonacci = function (n) {
+            // n 表示需要获取的斐波那契数的下标数，所有做下标
+            // 判断跳出递归
+            if (fibonacciArr.length - 1 == n) {
+                return fibonacciArr[n]
+            }
+            // 创建一个index来接收下标
+            var index = fibonacciArr.length - 2
+            // 根据斐波那契数字是之前两个数字的之和。即 0,1,1,2,3,5,8,13,21,34,55,89…
+            var i = fibonacciArr[index] + fibonacciArr[index + 1]
+            // 添加到数组fibonacciArr
+            fibonacciArr.push(i)
+            return fibonacci(n)
+        }
+        console.log(fibonacci(4))
+        // console.log(fibonacci(10))
+        // console.log(fibonacci(45))
+        // console.log(fibonacci(78))
+
+
+        // 方法二，用斐波那契公式推出
+        // 斐波那契数列以如下被以递推的方法定义：F(0)=0，F(1)=1, F(n)=F(n - 1)+F(n - 2)（n ≥ 2，n ∈ N*）
+        // var fibonacci = function (n) {
+        //   return n<=1?n:fibonacci(n-1)+fibonacci(n-2)
+        // }
+        // console.log(fibonacci(4))
+        // console.log(fibonacci(10))
+        var fibonacciArr = [0, 1]
+        var fibonacci = function (n) {
+            // n 表示需要获取的斐波那契数的下标数，所有做下标
+            // 判断跳出递归
+            if (fibonacciArr.length - 1 == n) {
+                return fibonacciArr[n]
+            }
+            // 创建一个index来接收下标
+            var index = fibonacciArr.length - 2
+            // 根据斐波那契数字是之前两个数字的之和。即 0,1,1,2,3,5,8,13,21,34,55,89…
+            var i = fibonacciArr[index] + fibonacciArr[index + 1]
+            // 添加到数组fibonacciArr
+            fibonacciArr.push(i)
+            return fibonacci(n)
+        }
+        console.log(fibonacci(4))
+        console.log(fibonacci(10))
+        console.log(fibonacci(45))
+        console.log(fibonacci(78))
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box1 {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .box2 {
+            width: 200px;
+            height: 300px;
+            position: relative;
+            margin: 200px auto;
+            transform-style: preserve-3d;
+            animation: fn 10s infinite linear;
+           
+        }
+
+        img {
+            width: 400px;
+            height: 400px;
+        }
+
+        .box2 div {
+            border-radius: 10px;
+            width: 400px;
+            height: 300px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+      
+        .img1 {
+            border-radius: 10px;
+            transform: rotateY(0deg) translateZ(485px);
+        }
+
+        .img2 {
+            border-radius: 10px;
+            transform: rotateY(60deg) translateZ(485px);
+        }
+
+        .img3 {
+            border-radius: 10px;
+            transform: rotateY(120deg) translateZ(485px);
+        }
+
+        .img4 {
+            border-radius: 10px;
+            transform: rotateY(180deg) translateZ(485px);
+        }
+
+        .img5 {
+            border-radius: 10px;
+            transform: rotateY(240deg) translateZ(485px);
+        }
+
+        .img6 {
+            border-radius: 10px;
+            transform: rotateY(300deg) translateZ(485px);
+        }
+
+     
+
+        @keyframes fn {
+            from {
+                transform: rotateX(-15deg) rotateY(0deg);
+            }
+
+            to {
+                transform: rotateX(-15deg) rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1">
+        <div class="box2">
+            <div class="img1">
+                <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.zhishi5.com%2Fd%2Ffile%2F202007%2F202007151939412629.png&refer=http%3A%2F%2Fwww.zhishi5.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665194395&t=21128384a14acea7e4e65df51ed4fc08" alt="">
+            </div>
+            <div class="img2">
+                <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fdingyue.ws.126.net%2F8myMsHPI3fbfsWB1oNknzKhzpHIuguhC1RNl6Qo6kB01q1554106381288.jpg&refer=http%3A%2F%2Fdingyue.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665194395&t=09df821fe6327c3bc76f852ad0e742da" alt="">
+            </div>
+            <div class="img3">
+                <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fbaiyangzuo.xkyn.com%2Fpic.php%3Furl%3Dhttps%3A%2F%2Fres.cngoldres.com%2Fupload%2F2019%2F0415%2Ffcda4abb0cde09844fdd1ca836d83c6a.jpg%3F_%3D1555309702764&refer=http%3A%2F%2Fbaiyangzuo.xkyn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665194395&t=b23b3de5009a09e80be724c1b0f1d78e" alt="">
+            </div>
+            <div class="img4">
+                <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fdingyue.ws.126.net%2FNuvGOFB3KQwttBahSet7Q1ADyK4PgKBrAfiOe5arI47SN1553932149902.jpeg&refer=http%3A%2F%2Fdingyue.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665194395&t=38fca196a605d7ab0bfd0f74bec97a96" alt="">
+            </div>
+            <div class="img5">
+                <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp5.itc.cn%2Fimages01%2F20201010%2Fa499dcd0401444698ad0f714b07a60d6.jpeg&refer=http%3A%2F%2Fp5.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665194395&t=06859c7513e0ffe233611da69ebd5ae4" alt="">
+            </div>
+            <div class="img6">
+                <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi2.hdslb.com%2Fbfs%2Farchive%2F85111b78d67d6daf57819e740c0fb4409faee456.jpg&refer=http%3A%2F%2Fi2.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665194679&t=5f44239e81c6dceae5e11acf00861958" alt="">
+            </div>
+           
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 608px;
+            height: 300px;
+            margin: 50px 50px;
+            background-color: pink;
+        }
+
+        .box>div {
+            float: left;
+            overflow: scroll;
+
+        }
+
+        .box .province {
+            width: 200px;
+            height: 100%;
+            background-color: cornsilk;
+        }
+
+        .box .city {
+            width: 200px;
+            height: 100%;
+            background-color: cornsilk;
+            margin-left: 2px;
+        }
+
+        .box .area {
+            margin-left: 2px;
+            width: 200px;
+            height: 100%;
+            background-color: cornsilk;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="province">
+            <div>fjksh </div>
+            <div>fjksh </div>
+            <div>fjksh </div>
+            <div>fjksh </div>
+        </div>
+        <div class="city"></div>
+        <div class="area"></div>
+    </div>
+    <script src="./ind.js/jquery-3.6.0.min.js"></script>
+    <script>
+        function ajax(option) {
+            option = Object.assign({
+                timeout: 5000,
+                type: 'GET'
+            }, option)
+
+            var data = option.data  // {name: 123, age: 5} => 'name=123&age=5'
+
+            var dataStr = ''
+
+            for (var key in data) {
+                dataStr += key + '=' + data[key] + '&'
+            }
+            dataStr = dataStr.substring(0, dataStr.length - 1)
+
+            var xhr = new XMLHttpRequest()
+
+            var timer = setTimeout(function () {
+                xhr.abort()
+            }, option.timeout)
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.status == 200 && xhr.readyState == 4) {
+
+                    clearTimeout(timer)
+                    option.success && option.success(xhr.responseText)
+                }
+            }
+            xhr.open(option.type, option.url)
+
+            if (option.type === 'POST') {
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            }
+            xhr.send(dataStr)
+        }
+
+        ajax({
+            type:"GET",
+            url:"./prov/prov-county.json",
+            success:function(data){
+                data =JSON.parse(data)
+                var province=[]
+                var city=[]
+                var area=[]
+
+                data.forEach(function(item) {
+                    var arr=item.split(':')
+                    // console.log(arr);
+
+                    if(arr[0].length==2){
+                        province.push({n:arr[1],i:[0]})
+                        //  console.log(province);
+                    }else if(arr[0].length==4){
+                        city.push({n:arr[1],i:[0]})
+                    }else{
+                        area.push({n:arr[1],i:[0]})
+                    }
+                   
+                });
+                console.log(city);
+                    console.log(area);
+                province.forEach(function(item){
+                    // $("div").appendTo($(".province")).text(item.n).attr("id",item.id).addClass("pro")
+
+                })
+
+                $(".province").on("click",".pro",function(){
+                    console.log(this);
+                    var fale=this
+                    $(".city").empty()
+                    $(".area").empty()
+                    city.forEach(function(item){
+                        if($(fale).attr("id")==parseInt(item.id/100)){
+                            // $('<div>').appendTo($('.city')).text(item.n).attr('id', item.id).addClass('mycity')
+                        }
+                    })
+                })
+
+                $('.city').on('click','.mycity',function () {
+                    var fale = this
+                    $('.area').empty()
+                    area.forEach(function (item) {
+                        if ($(fale).attr('id') ==parseInt(item.id / 100) ) {
+                            console.log(2);
+                            $('<div>').appendTo($('.area')).text(item.n).attr('id', item.id)
+                        }
+                    })
+                })
+            }
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 实验一：实现原型继承
+    要求：
+    
+    更新构造函数Dog，以便能够创建表演犬
+    小狗原型与课程中完全相同包含每个小狗都有的东西：属性species以及方法bark、run和wag。
+    并且我们依然能够创建Dog小狗实例。
+    还需要创建表演犬，但表演犬比较特殊。它们虽然也是小狗，但拥有普通小狗没有的种种行为。
+    stack()：立正。
+    gait()：类似于奔跑。这个方法接受一个字符串参数，如walk、trot、speed或gallop。
+    bait()：让小狗饱餐一顿。
+    groom()：让小狗洗个澡。
+    并且表演犬包含所有每个实例各不相同的属性，
+    如name、breed、weight和Handler（指的是训犬师表演犬自身的属性）
+    并且继承属性species以及方法bark、run和wag。以及上面表演犬原型对象的方法
+    部分代码： -->
+    <script>
+        // name, breed, weight, handler
+       
+         
+        function Dog(name, breed, weight) {
+            this.name = name;
+            this.breed = breed;
+            this.weight = weight;
+        }
+        // 这里给小狗原型添加了属性和方法。
+        Dog.prototype.species = "犬科"
+        Dog.prototype.bark = function () {
+            if (this.weight > 25) {
+                alert(this.name + " says WOOF!");
+            } else {
+                alert(this.name + " says woof!");
+            }
+        };
+        Dog.prototype.run = function () {
+            alert(this.name + " Run!");
+        };
+        Dog.prototype.wag = function () {
+            alert(this.name + "Wag!");
+        };
+
+       function ShowDog(name,breed,weight,handler){
+           Dog.call(this,name,breed,weight)
+           this.handler=handler
+       } 
+
+       function F(){}
+       F.prototype=Dog.prototype
+       ShowDog.prototype=new F()
+       ShowDog.prototype.constructor=ShowDog
+    //    for(var arrt in Dog.prototype){
+    //        ShowDog.prototype[arrt]=Dog.prototype[arrt];
+    //    }
+
+
+    //    ShowDog.prototype.bark = function () {
+    //         if (this.weight > 25) {
+    //             alert(this.name + " says WOOF!");
+    //         } else {
+    //             alert(this.name + " says woof!");
+    //         }
+    //     };
+    //     ShowDog.prototype.run = function() {
+    //         alert(this.name + " Run!");
+    //     };
+    //     ShowDog.prototype.wag = function() {
+    //         alert(this.name + "Wag!");
+    //     };
+
+
+        ShowDog.prototype.stack=function(){
+            alert(this.name+"立正")
+        }
+        ShowDog.prototype.gait=function(str){
+            if(str==="walk"){
+                alert("正步走")
+            }else if(str==="trot"){
+                alert("快步")
+            }else if(str==="gallop"){
+                 alert("飞跑")
+            }
+            // alert("walk、trot、pace或gallop")
+        }
+        ShowDog.prototype.bait=function(){
+            alert("训练师让"+this.name+"包餐一顿")
+        }
+        ShowDog.prototype.groom=function(){
+            alert("训练师让"+this.name+"洗个澡")
+        }
+        var scotty = new ShowDog("Scotty", "Scottish Terrier", 15, "Cookie");
+        scotty.bark()
+        scotty.run()
+        scotty.wag()
+        scotty.stack()
+        var str="walk"
+        scotty.gait(str)
+        scotty.bait()
+        scotty.groom()
+       
+
+
+
+    </script>
+</body>
+
+</html>

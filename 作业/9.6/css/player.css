@@ -1,0 +1,95 @@
+/* 控件 */
+/* 播放暂停按钮 */
+.player-control__btns {
+    float: right;
+    position: absolute;
+    right: 367px;
+    top: 219px;
+    /* z-index: 99px; */
+    overflow: hidden;
+}
+
+.player-control__btn {
+    float: left;
+    margin: 0 5px;
+    font-weight: bolder;
+    color: #fff;
+    cursor: pointer;
+}
+
+.player-control__volume {
+    float: right;
+    position: absolute;
+    top: 218px;
+    right: 125px;
+    overflow: hidden;
+}
+
+.control__volume--progress {
+    float: left;
+    width: 100px;
+    position: relative;
+    top: 8px;
+}
+
+.player__song--timeProgess{
+    font-size: 12px;
+    color: #fff;
+    margin-top: 5px;
+    padding: 0px 3px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.nowTime{
+    float: right;
+    position: absolute;
+    right: 420px;
+    top: 271px;
+}
+.totalTime{
+    float: right;
+    position: absolute;
+    right: 123px;
+    top: 271px;
+}
+
+.progress {
+    background: rgba(0, 0, 0, 0.3);
+    height: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset;
+    overflow: hidden;
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+}
+
+/*  播放进度  */
+.player__song--progress {
+    width: 25%;
+    float: right;
+    position: absolute;
+    right: 124px;
+    top: 267px;
+}
+
+.text-songname{
+    position: absolute;
+    right: 173px;
+    top: 115px;
+    width: 300px;
+    height: 75px;
+}
+
+.text-songname .song-name{
+    width: 100%;
+    font-weight: 600;
+    color: white;
+    font-size: 20px;
+}
+.text-songname .singer{
+    font-size: 18px;
+    color: darkgray;
+    margin-top: 11px;
+}

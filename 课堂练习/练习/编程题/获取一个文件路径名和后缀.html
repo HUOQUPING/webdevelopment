@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //1、（字符）获取一个长文件路径（比如"E:/class/php/js/day2/abc.html"）中的文件名及其后缀。
+        var filename="E:/class/php/js/day2/abc.html";
+        //用splice切割后返回一个数组arr1
+        var arr1=filename.split("/")
+        console.log(arr1)
+        var arr2=arr1[arr1.length-1].split(".")
+        console.log(arr2);
+        document.write("文件名"+arr2[0]+",后缀名"+arr2[1]);
+    </script>
+</body>
+</html>

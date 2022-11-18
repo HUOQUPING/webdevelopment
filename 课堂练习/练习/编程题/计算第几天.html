@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // (Date) 制作一个函数，getDayNum( 年月日日期 )，
+        // 可以返回指定日期是当前年的第几天
+        function getDateYMD(year,month,day){
+            // 指定日期
+            var nowDate=new Date(year,month-1,day)
+            // 当前年的第一天
+            var lastYear=new Date(year,0,1)
+            // 时间戳做法  用指定日期时间戳 - 当前年的第一天的时间戳
+            var timeDate=nowDate.getTime()-lastYear.getTime()
+            // 毫秒数转成天数
+            var days=timeDate/1000/3600/24;
+            // 返回天数值
+            return days+1;
+        }
+        console.log(getDateYMD(2022,1,2))
+        console.log(getDateYMD(2021,1,8))
+        console.log(getDateYMD(2022,4,2))
+    </script>
+</body>
+</html>

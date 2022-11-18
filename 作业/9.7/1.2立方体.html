@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+*{
+    padding: 0;
+    margin: 0;
+}
+/* html,body{
+    overflow: hidden;
+} */
+/* .stage{
+    perspective: 300px;
+    background-color: rgb(43, 58, 66);
+    width: 100%;
+    height: 740px;
+} */
+.container{
+    margin-top: 220px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: 50% 35% -90px;
+    transform:rotateX(-40deg) rotateY(45deg);
+    transition:2s;
+}
+
+.container2{
+    transform-style: preserve-3d;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    height: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50% -40px;
+    transform: translateZ(-50px) rotateY(0deg);
+    transition: 2s;
+}
+.flat{
+    width: 180px;
+    height: 180px;
+    background-color: rgba(141, 214, 249, 0.5);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border: 1px solid white;
+
+
+}
+.flat:nth-child(2){
+    transform: rotateY(-90deg);
+    transform-origin: right
+}
+.flat:nth-child(3){
+    transform: rotateY(90deg);
+    transform-origin: left;
+}
+.flat:nth-child(4){
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+}
+.flat:nth-child(5){
+    transform: rotateX(-90deg);
+    transform-origin: top;
+}
+.flat:nth-child(6){
+    transform:translateZ(-180px)
+}
+
+.tiny{
+    width: 80px;
+    height: 80px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border: 1px solid white;
+     /* 29，120，193 */
+    background-color: rgba(29,120,193,1);
+    position: absolute;
+
+}
+.tiny.active{
+    border:1px solid white;
+}
+.tiny:nth-child(2){
+    transform: rotateY(-90deg);
+    transform-origin: right
+}
+.tiny:nth-child(3){
+    transform: rotateY(90deg);
+    transform-origin: left;
+}
+.tiny:nth-child(4){
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+}
+.tiny:nth-child(5){
+    transform: rotateX(-90deg);
+    transform-origin: top;
+}
+.tiny:nth-child(6){
+    transform:translateZ(-80px)
+}
+    </style>
+
+</head>
+<body>
+<div class="stage">
+    <div class="container">
+        <div class="flat"></div>
+        <div class="flat"></div>
+        <div class="flat"></div>
+        <div class="flat"></div>
+        <div class="flat"></div>
+        <div class="flat"></div>
+        <div class="container2">
+                <div class="tiny"></div>
+                <div class="tiny"></div>
+                <div class="tiny"></div>
+                <div class="tiny"></div>
+                <div class="tiny"></div>
+                <div class="tiny"></div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script>
+    let c1=document.getElementsByClassName("container")[0];
+let c2=document.getElementsByClassName("container2")[0];
+let x=1;
+function rotate(){
+    if(x>10){ x=1; }
+    c1.style.transform=`rotateX(-40deg) rotateY(${45+x*90}deg)`;
+    c2.style.transform= `translateZ(-50px) rotateY(${-90*2*x}deg)`;
+    x++;
+}
+setInterval(rotate,5000)
+
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .active{
+        color: pink;
+    }
+</style>
+<body>
+<input type="search" class="search"><button>搜索</button>
+<ul>
+    <li class="active">单曲</li>
+    <li>专辑</li>
+    <li>歌手</li>
+</ul>
+<script src="./jquery-3.6.0.min.js"></script>
+    <script>
+
+        var type=1
+        var typeObj={
+            "歌手":1,
+            "专辑":10,
+            "歌手":100
+        }
+    
+        $("ul").on("click", "li",function(){
+            type=typeObj[$(this).text()]
+
+            $(this).addClass("active").siblings().removeClass("active")
+        })
+    
+
+     $("button").click(function(){
+       if(!$("input").val().trim()){
+           return
+       }
+        $.get(
+            'https://apis.netstart.cn/music//cloudsearch?keywords='+$("input").val()+'&'+type,
+            function(data) {
+            console.log(data);
+               
+            },
+            // dataType: 预期服务器返回的数据类型 jq自动检测(xml,json,script,html)
+            
+        )
+     })       
+
+    </script>
+</body>
+</html>

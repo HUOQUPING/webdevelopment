@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 鸡兔同笼 有若干只鸡兔在同一个笼子里，从上面数，
+        // 有35个头，从下面数，有94只脚。问笼中各有多少只鸡和兔？
+        var rabbit=0;
+        for(var ji=0;ji<=35;ji++){
+            rabbit=35-ji;
+            if(rabbit*4+ji*2==94){
+               console.log(ji)
+               console.log(rabbit)
+            }
+        }
+    </script>
+</body>
+</html>

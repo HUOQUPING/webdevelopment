@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 封装在指定n范围找到质数的函数, n>1, n是整数,
+        // 返回指定范围里面所有的质数
+        function iszs(n){
+            for(var i=2;i<n;i++){
+                if(n%i==0){
+                    return false;
+                }
+            }
+            return true;
+        }
+        function prime(m){
+            var newArr=[]
+            for(var i=2;i<=m;i++){
+                if(iszs(i)){
+                    newArr[newArr.length]=i
+                }
+            }
+            return newArr
+        }
+        console.log(prime(100))
+        console.log(prime(200))
+        
+    </script>
+</body>
+</html>

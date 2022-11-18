@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 样式 -->
+    <link rel="stylesheet" href="./play.css">
+    <!-- 引入jq -->
+    <script src="./jquery-3.6.0.min.js"></script>
+    <!-- 封装好的ajax用来请求数据 -->
+    <script src="./ajax.js"></script>
+    <!-- 渲染 -->
+    <script src="./content.js"></script>
+    <script src="./axios.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .box {
+            position: relative;
+            margin: 0 50px;
+            width: 200px;
+            height: 500px;
+        }
+
+        .box .song {
+            display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 150%;
+    height: 100%;
+    background-color: rgba(49, 47, 47, 0.753);
+
+        }
+
+        .song .li1 {
+            margin: 10px 0;
+
+        }
+
+        .smallbox {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: rgba(51, 50, 50, 0.685);
+        }
+
+        .lrclist {
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .title {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h3>歌曲列表</h3>
+        <ul class="song">
+
+        </ul>
+        <div class="smallbox">
+            <h2 class="title">歌曲列表</h2>
+            <ul class="lrclist"></ul>
+        </div>
+        <div class="btn-bar">
+            <audio src="" class="audio-play" autoplay></audio>
+            <div class="play2">
+                <div class="provue"></div>
+                <div class="play"></div>
+                <div class="next"></div>
+            </div>
+            <div class="volume"></div>
+            <progress class="volume-prograss" max="100" value="50" min="0"></progress>
+            <input class="range" type="range" min="0" value="50" max="100">
+            <progress class="prograss-bar" max="100" value="0" min="0"></progress>
+            <input class="prograss-range" type="range" min="0" value="0" max="100">
+            <div class="play-time">
+                <span class="play-time1"> 00:00</span> /
+                <span class="play-time2"> 00:00</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 网易云音乐播放页面 
+     1. 使用ajax 请求 https://apis.netstart.cn/music/personalized/newsong 获取歌曲列表 渲染在页面上 
+     2.点击列表的歌曲 (每首歌曲都有id),通过该id可以获取 
+     2.1 歌词  https://apis.netstart.cn/music/lyric?id=歌曲id 
+     2.2 歌曲 将 https://music.163.com/song/media/outer/url?id=歌曲id.mp3 以 src 赋予 Audio 即可播放 
+     3. 写一个播放音频的/组件基本要求 
+     1. 控制播放  
+     2. 控制进度  
+     3. 显示当前播放进度和歌曲总时长 
+     4. 5 歌曲播放//时歌词跟着歌曲高亮 
+     4. 附加功能 数据持久化将播放过得歌曲存入播放列表中 
+     数据持久化的数据源 包含 歌曲名 id 作者 总时长 
+     播放列表同样支持点击,点击后效果与上面功能一样 -->
+    <script>
+        class playto {
+            constructor() {
+                this.$audio = $('.audio-play')
+                // 音量控制
+                this.$volume2 = $('.volume-prograss')
+                this.$range2 = $('.range')
+                this.$play = $('.play')
+                // 进度条控制
+                this.$probar = $('.prograss-bar')
+                this.$prorange = $('.prograss-range')
+                // 时间
+                this.$playTime = $('.play-time')
+                this.init()
+            }
+            init() {
+                this.controulVolume()
+                this.controulPlay()
+                this.controulPrograss()
+                this.getTime()
+            }
+            // 音量控制器
+            controulVolume() {
+                let self = this
+
+                this.$range2.on('input', e => {
+
+                    this.$volume2.val(this.$range2.val())
+
+                    let value = self.$volume2.val()
+
+                    self.$audio[0].volume = parseFloat(value / 100)
+                    let volumeImg = self.$audio[0].volume
+                    console.log(volumeImg);
+
+                })
+
+
+            }
+
+            // 播放按钮控制
+            controulPlay() {
+                let self = this
+                this.$play.onplay = function () {
+                   
+                }
+                this.$play.on('click', e => {
+
+                    // console.log(e.target);
+                    // console.log(self.$audio);
+                    if (this.$audio[0].play) {
+                        this.$audio[0].pause()
+                        console.log(123);
+                    } else {
+                        this.$audio.play()
+                       
+                    }
+                })
+            }
+
+            // 进度条
+            controulPrograss() {
+                this.$prorange.on('input', e => {
+                    this.$probar.val(this.$prorange.val())
+                    let value = this.$probar.val()
+                })
+            }
+            // 获取时间
+            getTime() {
+                this.$audio.on('loadedmetadata', () => {
+                    // 总时间
+                    let duration = this.$audio[0].duration
+                    // console.log(2222);
+                    this.$playTime.children()[1].textContent = (Math.floor(duration / 60)) + ':' + (Math.ceil(duration % 60))
+                    this.$probar.val(this.$prorange.val())
+                    this.$prorange.on('input', () => {
+
+
+                        let value = this.$prorange.val()
+                        value = Math.floor(value * duration / 100)
+                        this.$audio[0].currentTime = value
+                        this.$playTime.children()[0].textContent = (Math.floor((value * duration / 100) / 60)) + ':' + (Math.ceil((value * duration / 100) % 60))
+
+                    })
+
+                    // 当前时间
+                    this.$audio.on('timeupdate', () => {
+                        let currentTime = this.$audio[0].currentTime
+
+                        let num = (Math.floor(currentTime / 60))
+                        num = num >= 10 ? num : '0' + num
+                        let num2 = (Math.ceil(currentTime % 60))
+                        num2 = num2 >= 10 ? num2 : '0' + num2
+                        this.$playTime.children()[0].textContent = num + ':' + num2
+
+                        this.$probar.val(currentTime / duration * 100)
+                        currentTime = parseInt(currentTime)
+
+                    })
+                })
+            }
+
+        }
+
+        new Content()
+        new playto()
+    </script>
+</body>
+
+</html>

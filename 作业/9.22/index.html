@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <link rel="stylesheet" href="./scss/text.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="./axios.min.js"></script>
+    <script src="./selection.json"></script>
+</head>
+
+
+<body>
+    <div id="box">
+        <h2 >编辑精选</h2>
+        <div class="list" v-for="item in dataArr">
+            <img :src="item.share_info.image">
+            <p class="word">  <span class="spantab" v-for="tit in item.categories.reverse()">{{tit.category_name}}-{{tit.sub.category_name}}</span></p>
+            <h4>{{item.share_info.title}}</h4>
+            <p class="word">{{item.team_user_count>0?'多个作者': item.author.userinfo.username}}</p>
+        </div>
+
+    </div>
+    <script>
+        new Vue({
+            el: "#box",
+            data: {
+                dataArr: []
+            },
+            // created方法是一个生命周期钩子函数,一般可以在created函数中调用ajax获取页面初始化所需的数据。
+            created(){
+                this.getData()
+                console.log(this.dataArr);
+            },
+            methods: {
+                // 数据请求
+                async getData() {
+                    // let {data}=await axios.get("https://apis.netstart.cn/xpc/home/selection")
+                    let { data } = await axios.get("./selection.json")
+                    let dataList = data.data.children
+                    // 删除头，因为第一组没有用到
+                    dataList.shift()
+                 //  循环
+                    for (let i = 0; i < dataList.length; i++) {
+                        let resource = dataList[i].children[0].model.resource
+                        this.dataArr.push(resource)
+                       
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

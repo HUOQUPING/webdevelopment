@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //  实验二： 瞄准和消灭数组
+        // 要求：
+        // 编写一个叫destroyer的函数。传给它的第一个参数是数组，我们称他为初始数组。后续的参数数量是不确定的，可能有一个或多个。
+        // 实现从初始数组中移除所有与后续参数相等的元素，并返回移除元素后的数组。
+         function destroyer(arr){
+             //存储arguments
+             var num=arguments
+            //  定义新数组并num的第一项
+             var newArr=num[0];
+            //  filter遍历newArr
+             var filArr=newArr.filter(function(item){
+                 var com=true
+                //  循环num的每一项，并判断与新数组是否相等，如果相等就false
+                 for(var i=1;i<num.length;i++){
+                     if(item===num[i]){
+                         com=false;
+                     }
+                 }
+                 return com
+             })
+             return filArr
+           
+         }
+        console.log( destroyer([1, 2, 3, 1, 2, 3], 2, 3)) // 应该返回[1, 1]。
+        console.log (destroyer([1, 2, 3, 5, 1, 2, 3], 2, 3)) // 应该返回[1, 5, 1]。
+        console.log (destroyer([3, 5, 1, 2, 2], 2, 3, 5)) // 应该返回[1]。
+        console.log(destroyer([2, 3, 2, 3], 2, 3)) // 应该返回[]。
+        console.log(destroyer(["tree", "hamburger", 53], "tree", 53)) // 应该返回["hamburger"]。 */
+    </script>
+</body>
+
+</html>

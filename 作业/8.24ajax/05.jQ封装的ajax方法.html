@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <script>
+        // jquery提供了一个ajax方法,使用者可以对ajax方法传入相应的配置选项
+        // 设置此方法使用 get/post 超时时间 成功失败的回调 content-type 甚至支持jsonp 
+        // 语法一: jQuery.ajax(url, option)
+        // 语法二: jQuery.ajax(option)
+        /*
+        interface option {
+            // 本次ajax请求方式('GEt' / 'POST')
+            type:'GET',
+            // 请求的资源地址
+            url: '',
+            // 发送给服务器的内容编码类型
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            // 向服务器发送的数据
+            data: {},
+            // 请求超时时间
+            timeout: 15000; 
+            // 网络请求成功的回调函数
+            success: function(data) {
+
+            }
+            // 网络请求失败的回调函数
+            error: function(err) {
+            
+            },
+            // 设置额外请求头
+            headers: {},
+            // jsonp 技术
+            jsonp: '某个jsonp函数名',
+            // jsonp 技术指定的回调函数
+            jsonpCallback: function(){}  
+        }
+        */
+
+        $.ajax({
+            url: 'https://apis.netstart.cn/music/banner?type=2',
+            type: 'GET',
+            timeout: 10000,
+            error: function (err) {
+                console.log('请求失败', err);
+            },
+            success: function (data) {
+                console.log('请求成功', data);
+            }
+        })
+
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://47.93.52.8:8005/users/signIn',
+            timeout: 12000,
+            // contentType可以不设置,本身ajax方法默认值就是下面的代码
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            data: {
+                account: 123456,
+                password: 123456
+            },
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        })
+
+    </script>
+</body>
+
+</html>

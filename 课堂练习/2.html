@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //  2 .请实现一个js函数，携带三个参数(start,end,n),根据输入
+        // 的数字范围[start，end]和随机数个数”n"生成随机数,生成的随
+        // 机数存储到数组中，返回该数组,返回的数组不能有相同元素.
+        // 注意:不需要考虑"n"大于数字范围的情况
+        // 例如: getUniqueNums(2, 10,5) =>
+        // [4,6,2,8,7]
+        var getUniqueNums = function(start,end,n){
+                var arr=[];
+                while(arr.length<n){
+                    var num=Math.floor(Math.random()*(end-start+1)+start);
+                    if(arr.indexOf(num)==-1)
+                    arr.push(num)
+                }
+                console.log(arr);
+            }
+
+        getUniqueNums(2,10,5)
+    </script>
+</body>
+</html>

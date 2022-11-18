@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 实验二：将输入的十进制数变成二进制
+        // 创建一个函数toBins，参数为一个正整数n。函数将会把传入的n转化为二进制字符串。
+
+        // var n=10;
+        // console.log(n.toString(2))
+
+        // 封装函数
+        // var toBins = function (n) {
+        // //   判断n=0的时候，返回0
+        //     if (n == 0) {
+        //         return 0;
+        //     }
+        // //    创建字符串str来拼接；
+        //     var str = "";
+        //     // 判断n不等于0的时候转二进制然后取整，后返回str；
+        //     while (n != 0) {
+        //         str = (n % 2)+str
+        //         // parseInt() 函数可解析一个字符串，并返回一个整数。
+        //         n = parseInt(n / 2)
+        //     }
+        //     return str
+        // }
+        // console.log(toBins(201));
+
+        // var toBins = function (n) {
+        //     if (n == 0) {
+        //         return 0;
+        //     }
+        //     var str = "";
+        //     while (n != 0) {
+        //         str = shiliu((n % 16)) + str
+        //         n = parseInt(n / 16)
+
+        //     }
+        //     //  return str
+        //     function shiliu(data) {
+        //         switch (data) {
+        //             case 10:
+        //                 return 'A'
+        //             case 11:
+        //                 return 'B'
+        //             case 12:
+        //                 return 'C'
+        //             case 13:
+        //                 return 'D'
+        //             case 14:
+        //                 return 'E'
+        //             case 15:
+        //                 return 'F'
+        //             default:
+        //                 return data;
+
+        //         }
+        //     }return str
+        // }
+        // console.log(toBins(45))
+        // obj参数为需要被深拷贝的对象
+function deepCopy( obj ){
+    // 判断typeof obj的类型是否为"object"
+    if( typeof obj !== "object" ){
+        return obj;
+    }
+
+    // 根据Array.isArray 判断是否为数组,  从而创建一个空数组或者空对象
+    var newObj = Array.isArray( obj ) ? [] : {};
+
+    // 遍历obj
+    for(var attr in obj ){
+        if( typeof obj[attr] === "object" ){// 判断对象的这条属性是否为对象
+            newObj[attr] = deepCopy( obj[attr] );  //若是对象进行嵌套调用
+        }else{
+            newObj[attr] = obj[attr];
+        }
+    }
+    
+    //返回深度克隆后的对象
+    return newObj;
+}
+
+var obj1 = {
+    name: "小明",
+    age: 19,
+    address: "北京",
+    hobby: ["抽烟","喝酒","烫头"],
+    data: {
+        friends:["lee", "Tom", "Jane"],
+        mother: "韩梅"
+    }
+};
+var obj2 = deepCopy(obj1);
+console.log(obj1 , obj2);
+obj2.name = "小刚";
+obj2.data.mother = "秦琪";
+obj1.hobby[0] = "吸烟";
+console.log( obj1, obj2  );
+
+    </script>
+</body>
+
+</html>

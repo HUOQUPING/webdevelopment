@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 默认金额为100
+        var money = 100;
+
+        // 定义变量保存当前是否需要退出while循环
+        var flag = false;
+
+        while (true) {
+            // 显示用户输入框
+            var res = window.prompt("请输入您要的操作\n1.存钱\n2.取钱\n3.显示余额\n4.退出");
+
+            if (res === null) {// 判断用户是否点击了取消
+                alert("您点击了取消");
+                // 修改flag的值
+                flag = true;
+            } else {// 用户点击了确定按钮
+                // Number(变量名) 可以把数据类型强制转换成数值类型
+                res = Number(res);
+                // 多分支
+                switch (res) {
+                    case 1:
+                        var addNum = window.prompt("请输入存入的金额");
+                        // 转成数值类型
+                        addNum = Number(addNum);
+                        // 判断输入的是否为负数或者零
+                        if (addNum <= 0) {
+                            alert("请输入大于零的金额");
+                        } else {
+                            // 累加
+                            money = money + addNum;
+                            // 提示信息
+                            alert("存款成功,当前余额为:" + money);
+                        }
+                        break;
+
+                    case 2:
+                        var quNum = window.prompt("请输入取款金额");
+                        // 转成数值类型
+                        quNum = Number(quNum);
+                        if (quNum <= 0) {
+                            alert("请输入大于零的金额");
+                        } else {
+                            // 判断余额是否足够
+                            if (quNum > money) {
+                                alert("对不起,余额不够,当前余额为:" + money);
+                            } else {
+                                // 累减
+                                money = money - quNum;
+                                // 提示信息
+                                alert("取款成功,当前余额为:" + money);
+                            }
+                        }
+                        break;
+
+                    case 3:
+                        alert("当前余额为:" + money);
+                        break;
+
+                    case 4:
+                        alert("退出ATM机成功,欢迎再次使用!");
+                        // 修改flag的值
+                        flag = true;
+                        break;
+
+                    default:
+                        alert("请输入1~4之间的数字");
+                }
+            }
+
+
+            // 判断flag的值,跳出整个while循环
+            if (flag) {
+                break;
+            }
+        }
+    </script>
+</body>
+
+</html>

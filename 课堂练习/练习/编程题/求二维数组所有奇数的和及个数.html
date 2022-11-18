@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         // 课堂练习-求出下列二维数组所有奇数元素的和以及奇数的个数
+         var arr=[[5,6,8,12,1],[14,3,33,4],[16,4,2]
+         ]
+        //  创建两个变量和和个数来存储
+         var sum=0;
+         var odd=0;
+        //  二维数组遍历
+         for(var i=0;i<arr.length;i++){
+             for(var j=0; j<arr[i].length;j++){
+            //    console.log(arr[i][j])
+            // 判断奇数的方法：%2！=0；或%2==1
+                if(arr[i][j]%2==1){
+                    //  判断是奇数进到sum
+                    sum+=arr[i][j];
+                    // 上面判断满足的话加1
+                    odd++
+                }
+
+             }
+
+         }
+         console.log("奇数和为："+sum)
+         console.log("奇数个数："+odd)
+        //  平均值
+         console.log("奇数平均值为："+sum/odd)
+         
+
+    </script>
+</body>
+</html>

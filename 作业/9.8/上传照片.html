@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <style type="text/css">
+            .warp {
+                display: inline-block;
+                vertical-align: bottom;
+               
+ 
+            }
+ 
+            img {
+                width: 300px;
+                height: 300px;
+                border: 2px solid rgb(48, 104, 189);
+                margin-top: 50px;
+                vertical-align: bottom;
+            }
+        </style>
+    </head>
+    <body>
+            <input type="file" id="file" /><br>
+            <img src="" />
+        <script>
+            let file = document.getElementById('file');
+            let image = document.querySelector("img");
+            file.onchange = function() {
+                //获取到一个FileList对象中的第一个文件对象,上传的文件
+                let fileData = this.files[0];
+                let pettern = /^image/;
+                 
+                // console.info(fileData.type)
+ 
+                if (!pettern.test(fileData.type)) {
+                    alert("图片格式不正确");
+                    return;
+                }
+                // 异步读取
+                let reader = new FileReader();
+                //异步读取文件内容
+                reader.readAsDataURL(fileData);
+                // 当读取操作成功完成时调用
+                reader.onload = function(e) {
+                    
+                    console.log(this.result);
+                    // 这里的this指向FileReader（）对象的实例reader
+                    image.setAttribute("src", this.result)
+                }
+            }
+
+            
+        </script>
+    </body>
+</html>

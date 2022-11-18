@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+        要求：
+
+        创建一个getTemplateTime函数接受两个参数
+        templateStr：指定输出日期格式字符串模板其中 y 表示年、 M 表示月、d表示日、h表示时、m表示分、s表示秒。
+        如：yyyy - MM - DD hh: mm、yyyy年MM月 hh: mm: ss等
+        date： 传入的日期数据类型
+        函数会将传入的日期按照接受的指定格式输出
+        部分代码：
+        */
+        var date = new Date();
+
+        var template1 = 'yyyy-MM-dd hh:mm:ss'
+
+        var result1 = getTemplateTime(template1, date);
+        console.log(result1) //2021-08-28 09:12:46
+        //
+        var template2 = 'hh:mm / ss 秒  yyyy年MM月dd日'
+
+        var result2 = getTemplateTime(template2, date)
+
+        console.log(result2) //09:12 / 46 秒 2021年08月28日
+
+     //   'MM @ yyyy --- dd 55555 % hh:mm'
+     //   "08 @ 2022 --- 20 55555 % 17:44"
+      //  创建一个getTemplateTime函数接受两个参数
+          function getTemplateTime(templateStr,date){
+              if(/y+/gi.test(templateStr)){
+                  templateStr=templateStr.replace(/y+/gi,function(res){
+                      return(date.getFullYear()+"").substr(4-res.length)
+                  })
+              }
+            //   创建对象时间
+              var dateobj={
+                  "M+":date.getMonth()+1,
+                  "d+":date.getDate(),
+                  "h+":date.getHours(),
+                  "m+":date.getMinutes(),
+                  "s+":date.getSeconds(),
+              }
+            //   for in遍历
+              for(var attr in dateobj){
+                  var reg=new RegExp(attr);
+                  var keyVal=dateobj[attr]+""
+                  if(reg.test(templateStr)){
+                      templateStr=templateStr.replace(reg,function(res){
+                          if(res.length===1){
+                             return keyVal;
+                          }
+                        //   截取
+                          return ("00"+keyVal).substr(keyVal.length)
+                      })
+                  }
+              }
+              return templateStr;
+          }
+
+
+    </script>
+</body>
+
+</html>

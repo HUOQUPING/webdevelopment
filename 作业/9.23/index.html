@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script></script>
+    <link rel="stylesheet" href="./scss/animate.css">
+    <link rel="stylesheet" href="./scss/todos.css">
+</head>
+<style>
+    /* .list-enter-active{
+        animation: hhh ease .6s;
+    }
+    .list-leave-active{
+        animation: hhh2 ease .6s;
+        position: absolute;
+    }
+    .list-move{
+        transition: all ease .3s;
+    }
+    @keyframes hhh{
+        from{
+            opacity: 1;
+            transform: translate(0,0);
+        }
+        to{
+            opacity: 0;
+            transform: translate(-100%,0);
+        }
+    } */
+    /* @keyframes hhh {
+        from {
+            transform: translateX(100%);
+            background-color: pink;
+        }
+
+        to {
+            transform: translateX(0);
+            background-color: blue;
+        }
+    } */
+    .active{
+      background-color: blue !important;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <!-- 头部图片样式 -->
+        <div class="head">
+            <img src="./images/note.75134fb0.svg">
+            <span>To-Do list</span>
+        </div>
+
+        <!-- 输入框按钮 -->
+        <div class="pan-head">
+            <h2 class="animated flipInX">~ Today I need to ~</h2>
+            <input type="text" placeholder="Add new todo..." v-model="title" @keydown.enter="inpTodo">
+            <button @click="inpTodo()">Submit</button>
+        </div>
+
+        <!-- 输入后插入的值 -->
+        <div class="pan-middle">
+            <li class="li-item" :class="{ del: todo.isCompeleted }" v-for="todo in todoList" :key="todo.title">
+                <div class="animated"  :class="{flipInX: todo.isCompeleted}">
+                    <input type="checkbox" v-model="todo.isCompeleted"><span>{{ todo.title }} </span>
+                    <button @click="removeItem(todo)">&times;</button>
+                </div>
+            </li>
+        </div>
+        <!-- 状态 -->
+        <div class="pan-footer">
+            <ul class="pan-li">
+                <!-- 监视锚点的变化，然后根据锚点进行筛选操作。-->
+                <li :class="{active: currentHash === '#/all'}"><a href="#/all">All</a></li>
+                <li :class="{active: currentHash === '#/unfinish'}"><a href="#/unfinish">Active</a></li>
+                <li :class="{active: currentHash === '#/finish'}"><a href="#/finish">Compeleted</a></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                title: '',
+                localStoragekeys: 'todolistkey',
+                todos: [],
+                currentHash: '#/all',
+            },
+
+            created() {
+                // 页面初次加载的时候，地址栏里面不存在 hash值.
+                this.currentHash = location.hash ? location.hash : '#/all';
+                window.onhashchange = () => {
+                    this.currentHash = location.hash;
+                }
+                // 获取  
+                this.todos = localStorage.getItem(this.localStoragekeys) ? JSON.parse(localStorage.getItem(this.localStoragekeys)) : this.todos;
+
+            },
+
+            // vue计算属性,是根据依赖关系进行缓存的计算,只有在它的相关依赖发生改变时才会进行更新
+            computed: {
+                unDoData() {
+                    return this.todos.filter(item => {
+                        return !item.isCompeleted;
+                    }).length;
+                },
+                todoList() {
+                    // 依赖于hash的变化
+                    if (this.currentHash === '#/finish') {
+                        return this.todos.filter(item => {
+                            return item.isCompeleted;
+                        })
+                    } else if (this.currentHash === '#/unfinish') {
+                        return this.todos.filter(item => {
+                            return !item.isCompeleted;
+                        })
+                    } else {
+                        return this.todos;
+                    }
+                },
+
+
+            },
+
+            methods: {
+                inpTodo() {
+                    let todo = {
+                        title: this.title,
+                        isCompeleted: false, // 默认为未完成
+
+                    };
+                    if (!this.title.trim()) {
+                        return
+                    }
+                    this.todos.push(todo);
+                    // 清空输入框
+                    this.title = '';
+                },
+
+                // 删除
+                removeItem(currentItem) {
+                    this.todos = this.todos.filter(item => {
+                        return item !== currentItem;
+                    });
+                },
+                // animate(i) {
+                    
+                //     this.animated=i
+                // }
+            },
+
+
+
+
+
+
+
+            // vue监视数据，并深度监视
+            watch: {
+                todos: {
+                    handler(newVal, oldVal) {
+                        localStorage.setItem(this.localStoragekeys, JSON.stringify(newVal));
+                    },
+                    deep: true,
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

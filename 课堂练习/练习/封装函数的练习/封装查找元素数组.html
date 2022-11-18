@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    //  封装一个查找数组元素的函数,找到则返回元素的下标,找不到返回-1 
+     function find(arr,element,indexEmt){
+      indexEmt=indexEmt===undefined?0:indexEmt
+        for(var i=indexEmt;i<arr.length;i++){
+            if(arr[i]==element){
+                return i;
+            }
+            
+        }return -1;
+     }
+     console.log(find(['d','a','c','e'],'e'))
+    </script>
+   
+</body>
+</html>

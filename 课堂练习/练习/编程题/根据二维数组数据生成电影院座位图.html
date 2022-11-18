@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        /*空*/
+        .seats-0 {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+        }
+
+        /*已售*/
+        .seats-2 {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-position: 0 -120px;
+            background-image: url(./seats.png);
+            background-size: 100% auto;
+        }
+
+        /*可售*/
+        .seats-1 {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-image: url(./seats.png);
+            background-size: 100% auto;
+        }
+
+        /*已选*/
+        .seats-3 {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-position: 0 -60px;
+            background-image: url(./seats.png);
+            background-size: 100% auto;
+        }
+        </style>
+    <script>
+         // 课堂练习-根据二维数组所提供数据生成电影院座位图
+        // 要求：
+        // 根据所提供二维数组数据生成电影院座位图
+        // 使用字符串拼接实现对应电影院座位元素
+        // 0 表示空座位，1 表示可选座位，2 表示已售座位，3表示已选座位
+        var seatsArr = [
+            [1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 2, 2],
+            [2, 2, 1, 1, 2, 2, 1, 1, 1, 1],
+            [1, 1, 3, 3, 1, 2, 2, 1, 1, 1],
+            [1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 0, 1, 1, 1, 1, 0, 1, 1],
+            [1, 1, 0, 1, 1, 1, 1, 0, 1, 1]
+        ];
+
+        var str="";
+        for(var i=0;i<seatsArr.length;i++){
+            for(var j=0;j<seatsArr[i].length;j++){
+                str+="<span class='seats-"+seatsArr[i][j]+"'></span>"
+            }
+            str+="<br>"
+        }
+        document.write(str)
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 封装一个函数求这个数组var arr=[10,4,20,15,6,9]中最小值 
+        // 并且在函数中输出这个最小值
+        function getmin(n){
+          var arr=[45,44,23,4,6,99,57,1]
+          var min=arr[0]
+          for(var i=1;i<arr.length;i++){
+              if(min>arr[i]){
+                min=arr[i]
+              }
+          }
+          console.log(min)
+        }
+        getmin();
+    </script>
+</body>
+</html>

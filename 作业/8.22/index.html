@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        #banner {
+            width: 820px;
+            height: 455px;
+            overflow: hidden;
+            margin: 100px auto;
+            position: relative;
+        }
+
+        #banner>#bigpic {
+            width: 500%;
+            height: 340px;
+            overflow: hidden;
+        }
+
+        #banner>#bigpic>li {
+            width: 820px;
+            float: left;
+        }
+
+        #banner>#smallpic {
+            width: 459px;
+            height: 115px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #banner>#smallpic>li {
+            margin-top: 5px;
+            width: 150px;
+            height: 90px;
+            opacity: 0.5;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        #banner>#smallpic>li>img {
+            width: 100%;
+        }
+
+        .active {
+            opacity: 1 !important;
+        }
+
+        .prev {
+            left: 0;
+            top: 32%;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(73, 68, 68 0.5);
+            line-height: 30px;
+            text-align: center;
+        }
+
+        .next {
+            right: 0;
+            top: 32%;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(73, 68, 68 0.5);
+            line-height: 30px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="banner">
+        <ul id="bigpic">
+            <li>
+                <img src="./imgs/1.jpg">
+            </li>
+            <li>
+                <img src="./imgs/2.jpg">
+            </li>
+            <li>
+                <img src="./imgs/3.jpg">
+            </li>
+        </ul>
+        <ul id="smallpic">
+            <li class="active">
+                <img src="./imgs/1.jpg">
+            </li>
+            <li>
+                <img src="./imgs/2.jpg">
+            </li>
+            <li>
+                <img src="./imgs/3.jpg">
+            </li>
+        </ul>
+        <a href="#" class="prev">&lt;</a>
+        <a href="#" class="next">&gt;</a>
+    </div>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script>
+
+        var bannerW = $("#banner")[0].offsetWidth;
+
+        function goto(idx) {
+            $("#bigpic").stop().animate({
+                marginLeft: -bannerW * idx
+            })
+            $("#smallpic li").eq(idx).addClass("active").siblings("li").removeClass("active")
+            
+
+        }
+
+        var currentIndex = 0;
+        var timer = null
+        //点击下面的图片跳转
+        $("#smallpic li").click(function () {
+            var index = $(this).index();
+            // console.log(index);
+            goto(index);
+            currentIndex = index;
+        })
+
+        //轮播
+        if (timer === null) {
+            timer = setInterval(function () {
+                currentIndex++;
+                currentIndex = currentIndex % 3;
+                goto(currentIndex);
+            }, 1800);
+        }
+
+        $(".prev").click(function () {
+            var index = $(this).index();
+            console.log(index);
+           
+            index--
+            goto(index);
+            currentIndex = index;
+        })
+        $(".next").click(function () {
+            var index = $(this).index();
+            console.log(index);
+            // index=currentIndex+index
+            index++
+            goto(index);
+            currentIndex = index;
+        })
+
+        //鼠标移上停止
+        $("#banner").hover(function () {
+            clearInterval(timer);
+            timer = null;
+        }, function () {
+            if (timer === null) {
+                timer = setInterval(function () {
+                    currentIndex++;
+                    currentIndex = currentIndex % 3;
+                    goto(currentIndex);
+                }, 1800);
+            }
+        });
+    </script>
+</body>
+
+</html>

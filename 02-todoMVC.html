@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!--1. 引入 bootstrap-->
+    <!-- <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/2.0.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script> -->
+    <style type="text/css">
+        .del{
+            text-decoration:line-through;
+            color: #ccc;
+        }
+        body{
+            background-color: hotpink;
+        }
+    </style>
+
+</head>
+<body>
+<!--2. 导航-->
+<!-- <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                Vuejs_TODO
+            </a>
+        </div>
+    </div>
+</nav> -->
+
+<!--pannel-->
+<!-- 2. vuejs 管理的区域 app-->
+<div class="container" id="app">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <input type="text"  class="form-control"
+                           v-model="title"
+                           @change.13="saveTodo"
+                    ><button  v-model="title" @click="saveTodo">Submit</button>
+                </div>
+
+                <div class="panel-body">
+
+                    <ul class="list-group">
+                        <!--思路：双击 li 的时候要实现编辑状态，知道是编辑哪条信息-->
+                        <li class="list-group-item" :class="{ del: todo.isCompeleted }" v-for="todo in todoList" @dblclick="editItem(todo)">
+                            <!--状态一-->
+                            <div v-show="currentEditItem != todo">
+                               <input type="checkbox" v-model="todo.isCompeleted"> {{ todo.title }} <button type="button" class="btn btn-danger btn-xs pull-right" @click="removeItem(todo)">&times;</button>
+                           </div>
+                            <input v-show="currentEditItem == todo"  type="text" class="form-control" v-model="todo.title" @blur="cancel" @change.13="cancel" v-focus="currentEditItem == todo">
+                        </li>
+
+                    </ul>
+
+                </div>
+                <div class="panel-footer">
+                    <ul class="nav nav-pills">
+                        <!-- 监视锚点的变化（得到用户点击是哪个锚点），然后根据锚点进行筛选操作。-->
+                        <li :class="{active: currentHash === '#/all'}"><a href="#/all">全部</a></li>
+                        <li :class="{active: currentHash === '#/finish'}"><a href="#/finish">已完成</a></li>
+                        <li :class="{active: currentHash === '#/unfinish'}"><a href="#/unfinish">未完成</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!--1.  引入 vuejs -->
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<!--uuid-->
+<script src="https://unpkg.com/uuid@latest/dist/umd/uuidv4.min.js"></script>
+
+<script type="text/javascript">
+    // vue js 自定义指令（全局，局部）
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            title: '',
+            localStoragekeys: 'todoMvcKey',
+            todos: [
+                 {
+                     id: 1,
+                     title: '吃饭',
+                     isCompeleted: false,
+                 },
+                 {
+                     id: 2,
+                     title: '睡觉',
+                     isCompeleted: true,
+                 },
+                 {
+                     id: 3,
+                     title: '打豆豆',
+                     isCompeleted: false,
+                 }
+            ],
+            newTodos: [], // 筛选容器
+            currentHash : '#/all',
+            currentEditItem: '',
+        },
+        directives: {
+            // el 当前的DOM元素
+            // bindings 指令相关的基本信息，例如指令的名称，指令传递的属性值
+            focus: function (el, bindings) {
+                console.log(el);
+                console.log(bindings);
+                if( bindings.value ){
+                    // 为true;
+                    el.focus(); // 为当前DOM元素设置焦点。
+                }
+
+            }
+        },
+
+        created(){
+            // 页面初次加载的时候，地址栏里面不存在 hash值，给一个默认值
+            this.currentHash = location.hash ? location.hash : '#/all';
+            // 页面一加载的时候就获取hash 复制url地址新开页面的时候也会状态保留。
+            // 需要根据当前的hash值判断用户是点的哪一个筛选，但是不在这个hash变化的做数据的筛选，而是使用computed完成新数据的生成
+            window.onhashchange =  () =>  {
+                this.currentHash = location.hash;
+            }
+
+
+            // 获取  todos api实现服务器端存储 和 获取
+            this.todos =  localStorage.getItem( this.localStoragekeys ) ? JSON.parse( localStorage.getItem( this.localStoragekeys )  ): this.todos;
+
+        },
+        computed: {
+            unDoData(){
+                return this.todos.filter( item => {
+                    return !item.isCompeleted;
+                } ).length;
+            },
+            todoList(){
+                // 依赖于hash的变化
+                if( this.currentHash === '#/finish'){
+                    return this.todos.filter( item => {
+                        return item.isCompeleted;
+                    })
+
+                }else if( this.currentHash === '#/unfinish'){
+                    return this.todos.filter( item => {
+                        return !item.isCompeleted;
+                    })
+                }else{
+                    return this.todos;
+                }
+            }
+
+        },
+        methods: {
+            cancel(){
+              this.currentEditItem = '';
+            },
+            editItem(currentItem){
+
+                console.log('call');
+
+                // 双击完成编辑操作 记录一下当前编辑的信息
+                this.currentEditItem = currentItem;
+
+            },
+            generatorUuid(){
+              return  uuidv4().replaceAll('-', '');
+            },
+            saveTodo(){
+                var todo = {
+                    // id: this.generatorUuid(),
+                    // 主键id（ 随机 唯一 uuid）
+                    title: this.title,
+                    isCompeleted: false, // 默认为未完成
+                };
+                this.todos.push( todo );
+                // 清空输入框
+                this.title = '';
+
+            },
+            // 删除
+            removeItem(currentItem){
+                this.todos = this.todos.filter( item => {
+                   return item !== currentItem;
+
+                });
+            }
+        },
+        watch: {
+            todos: {
+                handler(newVal, oldVal){
+                    localStorage.setItem( this.localStoragekeys, JSON.stringify( newVal ));
+                },
+                deep: true,
+            }
+        }
+    })
+</script>
+</html>

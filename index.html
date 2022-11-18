@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <!-- <div id="app">
+        <button  @click="btn" v-show="done">快速登入</button>
+        <button @click="btn2" v-show="done2">密码登入</button>
+        <p>{{done}}</p>
+        <p>{{done2}}</p>
+      
+        </div> -->
+        <div id="app">
+         <p>
+             <label>A<input v-model="last"></label>
+         </p>
+         <p>
+             <label>B<input v-model="first"></label>
+         </p>
+         <p>
+             全名：{{blood}}
+         </p>
+        </div>
+        <script>
+            new Vue({
+                el:'#app',
+                data:{
+             
+                last:"",
+                first:"",
+                },
+
+                // methods:{
+                //     bloodfn(){
+                //         if(this.last==A && this.first==B){
+                //             return this.blood=AB
+                //         }else if(this.last==a && this.first==b){
+                //             return this.blood=ab
+                //         }else if(this.last==A && this.first==b){
+                //             return this.blood=Ab
+                //         }else if(this.last==a && this.first==B){
+                //             return this.blood=aB
+                //         }
+                //     }
+                // },
+               
+                computed:{
+                    blood:{
+                       get(){
+                           return this.last+" "+this.first
+                       },
+                       set(val){
+                           let bl=val.split(" ")
+                        if(this.last=='A' && this.first=='B'){
+                            return 'AB'
+                        }else if(this.last=='a' && this.first=='b'){
+                            return 'ab'
+                        }else if(this.last=='A' && this.first=='b'){
+                            return 'Ab'
+                        }else if(this.last=='a' && this.first=='B'){
+                            return 'aB'
+                        }
+
+ 
+                       }
+                    },
+                   
+                }
+                // methods:{
+                //     btn(){
+                //     this.done=343434
+                //     },
+                //     btn2(){
+                //      this.done2=787878
+                //     }
+                // }
+            })
+        </script>
+</body>
+</html>

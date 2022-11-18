@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #banner {
+            width: 500px;
+            height: 300px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        #banner .pic {
+            width: 500px;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        #banner .pic ul {
+            width: 1000%;
+            overflow: hidden;
+            margin-left: -500px;
+        }
+
+        #banner .pic ul li {
+            width: 500px;
+            height: 300px;
+            float: left;
+        }
+
+        #banner .pic ul li img {
+            width: 100%;
+            height: 300px;
+        }
+
+        #banner .tab {
+            width: 315px;
+            height: 0px;
+            position: absolute;
+            left: 7%;
+            margin-left: -35px;
+            bottom: 0px;
+        }
+
+        #banner .tab ul li {
+            width: 100px;
+            height: 70px;
+            float: left;
+            margin: 2px 2px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        #banner .tab ul li img {
+            width: 100%;
+            height: 70px;
+        }
+
+        #banner .tab ul li.active {
+            opacity: 1 !important;
+        }
+
+        #banner .btn {
+            display: none;
+        }
+
+        #banner .btn a {
+            display: block;
+            width: 40px;
+            height: 40px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 40px;
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+        }
+
+        #prev {
+            left: 5px;
+        }
+
+        #next {
+            right: 5px;
+        }
+    </style>
+</head>
+<div id="banner">
+    <div class="pic">
+        <ul class="piccontent">
+            <!-- <li>
+                <img src="http://p1.music.126.net/T2NngZrTAo9WFwomzhHxKw==/109951167813314433.jpg">
+            </li> -->
+            <!-- <li>
+                <img src="./imgs/3.jpg">
+            </li>
+            <li>
+                <img src="./imgs/1.jpg">
+            </li>
+            <li>
+                <img src="./imgs/2.jpg">
+            </li>
+            <li>
+                <img src="./imgs/3.jpg">
+            </li>
+            <li>
+                <img src="./imgs/1.jpg">
+            </li> -->
+            <!-- <li>
+                <img src="http://p1.music.126.net/T2NngZrTAo9WFwomzhHxKw==/109951167813314433.jpg">
+            </li> -->
+        </ul>
+    </div>
+    <div class="tab">
+        <ul class="smallpic">
+            <!-- <li class="active"><img src="./imgs/1.jpg" alt=""></li>
+            <li><img src="./imgs/2.jpg" alt=""></li>
+            <li><img src="./imgs/3.jpg" alt=""></li> -->
+        </ul>
+    </div>
+    <div class="btn">
+        <a href="###" id="prev">&lt;</a>
+        <a href="###" id="next">&gt;</a>
+    </div>
+</div>
+
+<body>
+    <!-- <div></div> -->
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script src="./ban.js"></script>
+   
+    <script>
+        /*
+               url
+               data post请求的参数
+               methodType
+               cb
+               timeout 超时时间 
+              */
+        function ajax(option) {
+            option = Object.assign({
+                timeout: 5000,
+                type: 'GET'
+            }, option)
+
+            var data = option.data  // {name: 123, age: 5} => 'name=123&age=5'
+
+            var dataStr = ''
+
+            for (var key in data) {
+                dataStr += key + '=' + data[key] + '&'
+            }
+            // 去掉多余的&
+            dataStr = dataStr.substring(0, dataStr.length - 1)
+
+            var xhr = new XMLHttpRequest()
+
+            var timer = setTimeout(function () {
+                xhr.abort()
+            }, option.timeout)
+
+            xhr.onreadystatechange = function () {
+
+                if (xhr.status == 200 && xhr.readyState == 4) {
+
+                    clearTimeout(timer)
+
+                    // 获取文本数据    
+                    option.success && option.success(xhr.responseText)
+                }
+            }
+            xhr.open(option.type, option.url)
+
+            if (option.type === 'POST') {
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            }
+            xhr.send(dataStr)
+        }
+
+        ajax({
+            type: 'GET',
+            url: 'https://apis.netstart.cn/music/banner',
+            success: function (data) {
+                var data = JSON.parse(data)
+                console.log(data);
+                var asd = data.banners;
+                console.log(data.banners);
+                var picUl = document.querySelector(".piccontent");
+                var smallpic = document.querySelector(".smallpic")
+                console.log(picUl);
+                var str = ""
+                // console.log(data.banners.imageUrl[0]);
+                asd.forEach(function (item) {
+                    console.log(item);
+                    str += "<li><img src=" + item.imageUrl + "></li>"
+                });
+               
+                console.log(smallpic);
+                smallpic.innerHTML = str
+                smallpic.className = "active"
+                picUl.innerHTML = str
+            }
+        })
+
+        $(function () {
+        function Banner(element) {
+        this.$tabLi = $(element.tabLi);
+        this.$picUl = $(element.picUl);
+        this.$banner = $(element.banner);
+        this.$btn = $(element.btn);
+        this.$btnA = $(element.btnA);
+        this.imgWidth = $(element.picLi).width();
+        this.index = 0;
+        this.nowTime = new Date();
+        this.timer = null;
+        // 点击下面的小图
+        this.tabLiClick();
+        // 鼠标悬停
+        this.bannerHover();
+        // 左右点击
+        this.btnAClick();
+        // 自动轮播
+        this.autoPlay();
+    }
+
+    // 点击下面的小图上面切换添加类名轮播
+    Banner.prototype.tabLiClick = function () {
+        var $this = this;
+        $this.$tabLi.click(function () {
+            //序列号
+            $this.index = $(this).index();
+            $(this).addClass('active').siblings().removeClass('active');
+
+            $this.$picUl.animate({
+                marginLeft: -$this.imgWidth * ($this.index + 1) + 'px'
+            }, 300);
+        });
+    };
+
+    // 鼠标移上清楚定时器
+    Banner.prototype.bannerHover = function () {
+        var $this = this;
+        $this.$banner.hover(function () {
+            $this.$btn.show();
+            clearInterval($this.timer);
+        }, function () {
+            $this.$btn.hide();
+            $this.autoPlay(2000);
+        });
+    };
+
+    // 点击左右轮播
+    Banner.prototype.btnAClick = function () {
+        var $this = this;
+        $this.$btnA.click(function () {
+            //当前时间减去上一次时间大于300毫秒才执行
+            if (new Date() - $this.nowTime > 300) {
+                $this.nowTime = new Date();
+                var i = $(this).index();
+                console.log(i);
+                // 判断点击哪个按钮
+                i ? $this.index++ : $this.index--;
+                fn($this);
+            }
+        }).
+            mousedown(function () {
+                return false;
+            });
+    };
+
+    // 自动轮播
+    Banner.prototype.autoPlay = function () {
+        var $this = this;
+        $this.timer = setInterval(function () {
+            $this.index++;
+            fn($this);
+        }, 2000);
+    };
+
+    // 下标 偏移量 轮播 计算处理
+    function fn($this) {
+        var liIndex = $this.index;
+        if (liIndex >= $this.$tabLi.length) {
+            liIndex = 0;
+        } else if (liIndex < 0) {
+            liIndex = $this.$tabLi.length - 1;
+        }
+        $this.$tabLi.eq(liIndex).addClass('active').siblings().removeClass('active');
+        $this.$picUl.animate({
+            marginLeft: -$this.imgWidth * ($this.index + 1) + 'px'
+        }, 300, function () { //回调函数判断，让图片瞬间复位
+            if ($this.index == $this.$tabLi.length) {
+                $this.$picUl.css('marginLeft', -$this.imgWidth + 'px');
+                $this.index = 0;
+            } else if ($this.index < 0) {
+                $this.$picUl.css('marginLeft', -$this.imgWidth * ($this.$tabLi.length) + 'px');
+                $this.index = $this.$tabLi.length - 1;
+            }
+        });
+    }
+
+    // 调用封装函数
+    var banner = new Banner({
+        tabLi: '#banner .tab li',
+        picUl: '#banner .pic ul',
+        banner: '#banner',
+        btn: '#banner .btn',
+        btnA: '#banner .btn a',
+        picLi: '#banner .pic li',
+
+        // delayTime: 2000
+    });
+
+});
+  
+
+    </script>
+</body>
+
+</html>

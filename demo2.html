@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<canvas id="demo" width="1000px" height="600px">
+	您的浏览器不支持canvas，请升级您的浏览器
+</canvas>
+<div class="tools">
+	<div class="color">
+		<div class="color-block a"></div>
+		<div class="color-block b"></div>
+		<div class="color-block c"></div>
+		<div class="color-block d"></div>
+		<div class="color-block e"></div>
+		<div class="color-block f"></div>
+	</div>
+	<img class="earse" src="./imgs/earse.png"/>
+	<div class="clear">一键清屏</div>
+	<div class="clear">撤销</div>
+	<div class="clear">next</div>
+	<div class="clear">下载作品</div>
+</div>
+
+
+</body>
+<script type="text/javascript">
+    /*
+	*
+	* 绘制涂鸦块（有新功能还会添加）
+	*
+	*  */
+    window.onload = () => {
+        let canvas = document.getElementById('demo')
+        let ctx = canvas.getContext('2d')
+        // ctx.translate(0.5, 0.5);
+
+        // 背景白布
+        ctx.fillStyle = '#fff'
+        ctx.fillRect(0, 0, 1000, 600)
+
+        // 初始化参数
+        let colorList = ['#2aabd2', '#8470FF', '#a94442', 'aquamarine', 'aqua', '#000']
+        let color = document.getElementsByClassName('color-block')
+        let earse = document.getElementsByClassName('earse')
+        let clear = document.getElementsByClassName('clear')
+        let step = 0 // 栈顶指针(模拟)
+        let canvasHistory = [] // 图像文件栈
+        let canvasWidth = canvas.width
+        let canvasHeight = canvas.height
+        let x
+        let y
+
+        // 初始化样式
+        let selectedColor = '#000'
+        let width = 4
+        color[5].style.border = `1px solid #fff`
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        for (let i = 0; i < color.length; i++) {
+            color[i].onclick = () => {
+                for (let i = 0; i < color.length; i++) {
+                    color[i].style.border = 0
+                    earse[0].style.border = 0
+                }
+                selectedColor = colorList[i]
+                width = 4
+                color[i].style.border = `1px solid #fff`
+            }
+        }
+
+        // 橡皮擦擦除
+        earse[0].onclick = () => {
+            for (let i = 0; i < color.length; i++) {
+                color[i].style.border = 0
+            }
+            earse[0].style.border = `1px solid #fff`
+            selectedColor = '#fff'
+            width = 10
+        }
+
+        // 清屏
+        clear[0].onclick = () => {
+            ctx.fillStyle = '#fff'
+            ctx.fillRect(0, 0, 1000, 600)
+        }
+
+        // 撤销操作
+        clear[1].onclick = () => {
+            if (step > 0) {
+                step--
+                let canvasPic = new Image()
+                canvasPic.src = canvasHistory[step - 1]
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+                console.log(canvasPic)
+                canvasPic.onload = function () {
+                    ctx.drawImage(canvasPic, 0, 0)
+                }
+            } else { // 栈顶指针到达栈底
+                window.alert('不能再继续撤销了')
+            }
+        }
+
+        // 前进操作，只有在回退之后才可以执行这一步（本质：当前指针step不是指向栈顶的时候才可以使栈顶指针+1直到到达栈顶）
+        clear[2].onclick = () => {
+			if (step < canvasHistory.length) {
+                step++
+                let canvasPic = new Image()
+                canvasPic.src = canvasHistory[step - 1]
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+                console.log(canvasPic)
+                canvasPic.onload = function () {
+                    ctx.drawImage(canvasPic, 0, 0)
+                }
+            } else {
+                window.alert('不能再继续前进了')
+            }
+		}
+
+        // 保存图片文件到本地
+        clear[3].onclick = () => {
+            let a = document.createElement('a')          // 创建一个a节点插入的document
+            let event = new MouseEvent('click')           // 模拟鼠标click点击事件
+            a.download = '图片1'                  		// 设置a节点的download属性值
+            a.href = canvas.toDataURL('image/png')     // 将图片的src赋值给a节点的href
+            a.dispatchEvent(event)
+        }
+
+        // 执行绘画操作
+        canvasDraw()
+
+        // 正式开始绘制
+        function canvasDraw() {
+            canvas.onmousedown = (e) => {
+                ctx.beginPath()
+                // 获取坐标作为起点
+                e = e || window.event
+                x = e.clientX
+                y = e.clientY
+                let t = document.documentElement.scrollTop || document.body.scrollTop
+                // 定位起点
+                ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop + t)
+                document.onmousemove = (e) => {
+                    let t = document.documentElement.scrollTop || document.body.scrollTop
+                    e = e || window.event
+                    // 画笔样式取决于自己的配置
+                    ctx.lineWidth = width
+                    ctx.lineJoin = 'round'
+                    ctx.strokeStyle = selectedColor
+                    // 在鼠标移动的
+                    ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop + t)
+                    ctx.stroke()
+                }
+                // 鼠标抬起
+                document.onmouseup = (e) => {
+                    if (x && y) {
+                        // 取消前面的鼠标动作，能够在鼠标移出画板的时候抬起也能够取消绘画行为。
+                        document.onmousemove = null
+                        document.onmousedown = null
+                        
+                        // 判断当前指针是否指向栈顶，如果没有的话，就会开始删除元素，从当前指向的元素删到数组顶部，使step重新指向栈顶。
+                        if (step < canvasHistory.length) {
+                            // canvasHistory.length = step // 截断数组
+							canvasHistory.splice(step, canvasHistory.length - step) 
+                        }
+                        canvasHistory.push(canvas.toDataURL()) // 添加新的绘制到历史记录
+                        step++ // 栈顶元素提升
+                    }
+                    x = null
+                    y = null
+                }
+            }
+        }
+    }
+</script>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	body {
+		background-color: #dddddd;
+	}
+
+	canvas {
+		margin: 10px 0 0 10px;
+		background-color: white;
+		border-radius: 10px;
+	}
+
+	.color {
+		width: 250px;
+	}
+
+	.color .color-block {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+		width: 50px;
+		height: 50px;
+	}
+
+	.tools {
+		margin: 20px 0 50px 50px;
+		display: flex;
+		justify-content: left;
+	}
+
+	.tools img {
+		padding: 5px;
+		background-color: white;
+		width: 50px;
+		height: 50px;
+	}
+
+	.tools .clear {
+		padding: 5px 10px;
+		max-height: 40px;
+		margin-left: 30px;
+		font-size: 20px;
+		margin-top: 5px;
+		border-radius: 5px;
+		box-shadow: 1px 1px 5px #aaaaaa;
+		background-color: #fafafa;
+		cursor: pointer;
+	}
+
+	.a {
+		background-color: #2aabd2;
+	}
+
+	.b {
+		background-color: #8470FF;
+	}
+
+	.c {
+		background-color: #a94442;
+	}
+
+	.d {
+		background-color: aquamarine;
+	}
+
+	.e {
+		background-color: aqua;
+	}
+
+	.f {
+		background-color: #000;
+	}
+</style>
+</html>

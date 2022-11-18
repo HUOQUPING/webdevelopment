@@ -1,0 +1,29 @@
+.todo-c-enter {
+    transform: rotate3d(0.5, 0, 0, 90deg);
+
+}
+.todo-c-enter-active {
+    transition: all 0s linear;
+}
+
+.todo-c-enter-to {
+    transform: rotate3d(0, 0, 0, 0deg);
+}
+#app .todo-list .todo-item.completed{
+    background-color: #fe7345;
+    text-decoration: line-through;
+    color: white;
+    font-weight: bold;
+    /* transition: all .5s linear; */
+}
+/* .todo-c-enter.completed {
+    transform: rotate3d(0.5, 0, 0, 90deg);
+
+}
+.todo-c-enter-active.completed  {
+    transition: all 0.5s linear;
+}
+
+.todo-c-enter-to.completed  {
+    transform: rotate3d(0, 0, 0, 0deg);
+} */

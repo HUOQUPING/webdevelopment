@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 600px;
+            height: 600px;
+            padding: 10px 10px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            background-color: pink;
+        }
+
+        .box .chatbox {
+            width: 580px;
+            height: 400px;
+            padding-top: 10px;
+            background-color: white;
+        }
+
+        .box .inputbox {
+            width: 580px;
+            height: 80px;
+            margin-top: 10px;
+            background-color: white;
+        }
+
+        #inp {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tabp {
+            background-color: yellowgreen;
+            color: black;
+            margin-left: 468px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <p>聊天框</p>
+        <div class="chatbox"></div>
+        <div class="inputbox"><textarea id="inp"></textarea></div>
+        <div><button>发送(ctrl+enter)</button></div>
+    </div>
+
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script>
+        function chatk() {
+            var conVal = $("textarea").val()
+            // 判断输入内容是否为空
+            if (conVal.trim().length === 0) {
+                alert("请输入内容才可以！！！")
+                return;
+            }
+            // 创建 添加 清空
+            var $p = $("<p class='tabp'>" + conVal + "</p>")
+            $(".chatbox").append($p)
+            $("textarea").val("");
+        }
+
+        $("button").on("click", chatk)
+
+        $(document).keypress(function (e) {
+            e.ctrlKey && e.which == 13 || e.which == 10
+            $("button").click();
+        });
+    </script>
+</body>
+
+</html>
